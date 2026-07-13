@@ -3,6 +3,61 @@
 Alle nennenswerten Änderungen an diesem Projekt.
 Format lose nach „Keep a Changelog". Additiv — nichts wird gelöscht.
 
+## [0.5.0] — 2026-07-13 — Abschnitt 6, Teil 1: Grundpflege an die Vorlage angeglichen
+
+Grundlage: Stammdatenblatt Seite 5 und Ernährungsblock Seite 6, Punkt 9
+„Gewünschte To-Do's". Nur die **Grundpflege** (7 Positionen). Die
+**Behandlungspflege bleibt unberührt** (kommt im nächsten Paket).
+
+Muster je Position: der bestehende `…_selbststaendig`-Schalter bleibt unverändert;
+dazu ein `multiselect` mit den Ankreuzoptionen der Vorlage; dazu ein
+Freitextfeld „eigene, sonstige Angaben", wo die Vorlage es vorsieht. Alle neuen
+Felder sind `sensitive` (freiwillig) und erscheinen nur, wenn der Schalter nicht
+gesetzt ist (`showIf`). Die bisherigen Freitextfelder werden **nicht gelöscht**,
+sondern auf `status: "deprecated"` gesetzt (wie bei `sprache_kunde`).
+
+### Ausgemustert (`status: "deprecated"`, bleiben für alte Daten)
+
+- `positionswechsel`, `transfer_hilfsmittel`, `fortbewegung`, `treppensteigen`,
+  `koerperpflege`, `ausscheidung`, `ernaehrung` (je `version: 2`).
+
+### Neu
+
+- **Positionswechsel:** `positionswechsel_optionen` (im Bett · im Rollstuhl),
+  `liegeposition` (rechts · links · Rücken · Bauch), `pflegebett_vorhanden`
+  (ja/nein).
+- **Transfer:** `transfer_optionen` (kinästhetisch · mit Lifter · mit
+  Rückenstützgürtel · Hebegurt · Lagerungstuch · Deckenlifter).
+- **Fortbewegung:** `fortbewegung_optionen` (mit Rollstuhl · anderes Hilfsmittel).
+- **Treppensteigen:** `treppensteigen_optionen` (nicht möglich · mit Hilfsmittel ·
+  mit personeller Hilfe) + Freitext `treppensteigen_eigene`.
+- **Körperpflege:** `koerperpflege_optionen` (Duschen · Baden · am Waschbecken ·
+  im Bett · aktivierende Pflege · komplette Hilfe · nur Teilleistungen) +
+  Freitext `koerperpflege_eigene`.
+- **Ausscheidung:** `ausscheidung_kontinenz` (kontinent · inkontinent),
+  `ausscheidung_unterstuetzung` (Mobilisation auf WC · auf Toiletten-/Duschstuhl ·
+  Intimhygiene · Bekleidung richten), `ausscheidung_neigung` (Verstopfung ·
+  Durchfall), `ausscheidung_hilfsmittel` (Inkontinenzartikel · Suprapubischer
+  Dauerkatheter · künstlicher Darmausgang) + Freitext `ausscheidung_eigene`.
+- **Ernährung:** `ernaehrung_kost` (Freitext), `ernaehrung_zubereitung` (durch
+  Assistenten · Essen auf Rädern · selbstständig/Angehörige), `ernaehrung_essen_muss`
+  (angereicht · vorbereitet), `ernaehrung_hilfsmittel` (besonderes Besteck ·
+  Strohhalm · Schluckstörung · Magensonde (PEG)) + Freitext `ernaehrung_eigene`.
+
+  Alle neuen Felder mit `version: 1`, `changed: 2026-07-13`, ausführlichem
+  Hilfetext (bei intimen Themen sachlich, einfache Sprache, Hinweis auf
+  Freiwilligkeit und Klärung im Gespräch).
+
+### Unverändert (bewusst)
+
+- Behandlungspflege (`medikamente`, `hilfsmittel`, `wundversorgung`, `beatmung`,
+  `werte_kontrolle`, `einmalkatheter`) und die restlichen fehlenden Felder aus
+  `ABGLEICH.md`.
+- Keine Typänderung an bestehenden Feldern (nur Deprecation + neue Felder).
+- `form.js`, `pdf.js`, `check-fields.js`, `index.html`, `styles.css` nicht
+  angefasst — der vorhandene Renderer deckt `multiselect`/`select`/`textarea`
+  bereits ab. `node check-fields.js` läuft fehlerfrei (137 Felder, 11 deprecated).
+
 ## [0.4.0] — 2026-07-13 — Abschnitt 7 (Wünsche an die Assistenzkraft) an die Vorlage angeglichen
 
 Grundlage: „Wünsche des Kunden", Seite 1 und 2. Optionen wörtlich aus der Vorlage.

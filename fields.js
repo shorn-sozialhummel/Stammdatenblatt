@@ -528,9 +528,45 @@
     {
       id: "positionswechsel", section: 6, audience: "kunde", type: "textarea",
       label: "Positionswechsel: Wobei brauchen Sie Hilfe?",
-      help: "Beschreiben Sie, wobei Sie beim Lagewechsel Hilfe brauchen. Gesundheitsangabe, freiwillig — Sie können es auch im Gespräch klären.",
+      help: "Ausgemustert (deprecated): ersetzt durch die Auswahlfelder zum Positionswechsel. Bleibt für alte Daten erhalten.",
       sensitive: true,
-      showIf: { field: "positionswechsel_selbststaendig", value: false }
+      showIf: { field: "positionswechsel_selbststaendig", value: false },
+      status: "deprecated", version: 2, changed: "2026-07-13"
+    },
+    {
+      id: "positionswechsel_optionen", section: 6, audience: "kunde", type: "multiselect",
+      label: "Positionswechsel: Wobei brauchen Sie Hilfe?",
+      help: "Wo brauchen Sie Hilfe beim Wechseln der Lage? Sie können mehrere Punkte ankreuzen. Alles freiwillig — Sie können es auch im Gespräch klären.",
+      sensitive: true,
+      options: [
+        { value: "im_bett", label: "im Bett" },
+        { value: "im_rollstuhl", label: "im Rollstuhl" }
+      ],
+      showIf: { field: "positionswechsel_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "liegeposition", section: 6, audience: "kunde", type: "multiselect",
+      label: "Bevorzugte Liegeposition",
+      help: "Wie liegen Sie am liebsten? Sie können mehrere Punkte ankreuzen. Freiwillig.",
+      sensitive: true,
+      options: [
+        { value: "rechts", label: "rechts" },
+        { value: "links", label: "links" },
+        { value: "ruecken", label: "Rücken" },
+        { value: "bauch", label: "Bauch" }
+      ],
+      showIf: { field: "positionswechsel_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "pflegebett_vorhanden", section: 6, audience: "kunde", type: "select",
+      label: "Ist ein Pflegebett vorhanden?",
+      help: "Haben Sie ein Pflegebett? Freiwillig.",
+      sensitive: true,
+      options: JA_NEIN,
+      showIf: { field: "positionswechsel_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
     },
     {
       id: "transfer_hilfsmittel_selbststaendig", section: 6, audience: "kunde", type: "checkbox",
@@ -540,9 +576,26 @@
     {
       id: "transfer_hilfsmittel", section: 6, audience: "kunde", type: "textarea",
       label: "Transfer: Hilfe und Hilfsmittel",
-      help: "Wobei brauchen Sie beim Umsetzen Hilfe? Welche Hilfsmittel nutzen Sie, zum Beispiel Lifter oder Rutschbrett? Gesundheitsangabe, freiwillig.",
+      help: "Ausgemustert (deprecated): ersetzt durch das Auswahlfeld zum Transfer. Bleibt für alte Daten erhalten.",
       sensitive: true,
-      showIf: { field: "transfer_hilfsmittel_selbststaendig", value: false }
+      showIf: { field: "transfer_hilfsmittel_selbststaendig", value: false },
+      status: "deprecated", version: 2, changed: "2026-07-13"
+    },
+    {
+      id: "transfer_optionen", section: 6, audience: "kunde", type: "multiselect",
+      label: "Transfer: Wie wird umgesetzt?",
+      help: "Transfer heißt umsetzen, zum Beispiel vom Bett in den Rollstuhl. Wie wird das gemacht oder welche Hilfsmittel werden genutzt? Sie können mehrere Punkte ankreuzen. Freiwillig.",
+      sensitive: true,
+      options: [
+        { value: "kinaesthetisch", label: "kinästhetisch" },
+        { value: "lifter", label: "mit Lifter" },
+        { value: "rueckenstuetzguertel", label: "mit Rückenstützgürtel" },
+        { value: "hebegurt", label: "Hebegurt" },
+        { value: "lagerungstuch", label: "Lagerungstuch" },
+        { value: "deckenlifter", label: "Deckenlifter" }
+      ],
+      showIf: { field: "transfer_hilfsmittel_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
     },
     {
       id: "fortbewegung_selbststaendig", section: 6, audience: "kunde", type: "checkbox",
@@ -552,9 +605,22 @@
     {
       id: "fortbewegung", section: 6, audience: "kunde", type: "textarea",
       label: "Fortbewegung: Wobei brauchen Sie Hilfe?",
-      help: "Wobei brauchen Sie beim Gehen oder Fahren Hilfe? Gesundheitsangabe, freiwillig.",
+      help: "Ausgemustert (deprecated): ersetzt durch das Auswahlfeld zur Fortbewegung. Bleibt für alte Daten erhalten.",
       sensitive: true,
-      showIf: { field: "fortbewegung_selbststaendig", value: false }
+      showIf: { field: "fortbewegung_selbststaendig", value: false },
+      status: "deprecated", version: 2, changed: "2026-07-13"
+    },
+    {
+      id: "fortbewegung_optionen", section: 6, audience: "kunde", type: "multiselect",
+      label: "Fortbewegung: Womit bewegen Sie sich fort?",
+      help: "Wie kommen Sie in der Wohnung voran? Sie können mehrere Punkte ankreuzen. Freiwillig.",
+      sensitive: true,
+      options: [
+        { value: "rollstuhl", label: "mit Rollstuhl" },
+        { value: "anderes_hilfsmittel", label: "anderes Hilfsmittel" }
+      ],
+      showIf: { field: "fortbewegung_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
     },
     {
       id: "treppensteigen_selbststaendig", section: 6, audience: "kunde", type: "checkbox",
@@ -564,9 +630,31 @@
     {
       id: "treppensteigen", section: 6, audience: "kunde", type: "textarea",
       label: "Treppensteigen: Wobei brauchen Sie Hilfe?",
-      help: "Wobei brauchen Sie auf Treppen Hilfe? Gesundheitsangabe, freiwillig.",
+      help: "Ausgemustert (deprecated): ersetzt durch das Auswahlfeld und das Feld für eigene Angaben zum Treppensteigen. Bleibt für alte Daten erhalten.",
       sensitive: true,
-      showIf: { field: "treppensteigen_selbststaendig", value: false }
+      showIf: { field: "treppensteigen_selbststaendig", value: false },
+      status: "deprecated", version: 2, changed: "2026-07-13"
+    },
+    {
+      id: "treppensteigen_optionen", section: 6, audience: "kunde", type: "multiselect",
+      label: "Treppensteigen: Was trifft zu?",
+      help: "Wie kommen Sie Treppen hoch und runter? Sie können mehrere Punkte ankreuzen. Freiwillig.",
+      sensitive: true,
+      options: [
+        { value: "nicht_moeglich", label: "nicht möglich" },
+        { value: "mit_hilfsmittel", label: "mit Hilfsmittel (z. B. Treppensteighilfe)" },
+        { value: "personelle_hilfe", label: "mit personeller Hilfe (Stützen, Aufsicht)" }
+      ],
+      showIf: { field: "treppensteigen_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "treppensteigen_eigene", section: 6, audience: "kunde", type: "textarea",
+      label: "Treppensteigen: eigene, sonstige Angaben",
+      help: "Möchten Sie dazu noch etwas in eigenen Worten schreiben? Freiwillig. Sie können das Feld auch leer lassen und im Gespräch darüber reden.",
+      sensitive: true,
+      showIf: { field: "treppensteigen_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
     },
     {
       id: "koerperpflege_selbststaendig", section: 6, audience: "kunde", type: "checkbox",
@@ -576,9 +664,35 @@
     {
       id: "koerperpflege", section: 6, audience: "kunde", type: "textarea",
       label: "Körperpflege: Wobei brauchen Sie Hilfe?",
-      help: "Wobei brauchen Sie bei der Körperpflege Hilfe? Gesundheitsangabe, freiwillig.",
+      help: "Ausgemustert (deprecated): ersetzt durch das Auswahlfeld und das Feld für eigene Angaben zur Körperpflege. Bleibt für alte Daten erhalten.",
       sensitive: true,
-      showIf: { field: "koerperpflege_selbststaendig", value: false }
+      showIf: { field: "koerperpflege_selbststaendig", value: false },
+      status: "deprecated", version: 2, changed: "2026-07-13"
+    },
+    {
+      id: "koerperpflege_optionen", section: 6, audience: "kunde", type: "multiselect",
+      label: "Körperpflege: Wobei brauchen Sie Hilfe?",
+      help: "Wobei und wie brauchen Sie Hilfe bei der Körperpflege? Sie können mehrere Punkte ankreuzen. Das ist eine persönliche Angabe und ganz freiwillig.",
+      sensitive: true,
+      options: [
+        { value: "duschen", label: "Duschen" },
+        { value: "baden", label: "Baden" },
+        { value: "waschbecken", label: "am Waschbecken" },
+        { value: "im_bett", label: "im Bett" },
+        { value: "aktivierende_pflege", label: "aktivierende Pflege" },
+        { value: "komplette_hilfe", label: "komplette Hilfe (Übernahme)" },
+        { value: "teilleistungen", label: "nur Teilleistungen / punktuelle Hilfe (z. B. bei Intimpflege)" }
+      ],
+      showIf: { field: "koerperpflege_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "koerperpflege_eigene", section: 6, audience: "kunde", type: "textarea",
+      label: "Körperpflege: eigene, sonstige Angaben",
+      help: "Möchten Sie dazu noch etwas in eigenen Worten schreiben? Freiwillig. Sie können das Feld auch leer lassen und im Gespräch darüber reden.",
+      sensitive: true,
+      showIf: { field: "koerperpflege_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
     },
     {
       id: "ausscheidung_selbststaendig", section: 6, audience: "kunde", type: "checkbox",
@@ -588,9 +702,69 @@
     {
       id: "ausscheidung", section: 6, audience: "kunde", type: "textarea",
       label: "Toilette / Ausscheidung: Wobei brauchen Sie Hilfe?",
-      help: "Wobei brauchen Sie hier Hilfe? Das ist eine sehr persönliche Angabe und ganz freiwillig.",
+      help: "Ausgemustert (deprecated): ersetzt durch die einzelnen Felder zur Ausscheidung. Bleibt für alte Daten erhalten.",
       sensitive: true,
-      showIf: { field: "ausscheidung_selbststaendig", value: false }
+      showIf: { field: "ausscheidung_selbststaendig", value: false },
+      status: "deprecated", version: 2, changed: "2026-07-13"
+    },
+    {
+      id: "ausscheidung_kontinenz", section: 6, audience: "kunde", type: "select",
+      label: "Ausscheidung: Kontinenz",
+      help: "Können Sie Blase und Darm kontrollieren? Das ist eine sehr persönliche Angabe und ganz freiwillig. Sie können es leer lassen und im Gespräch klären.",
+      sensitive: true,
+      options: [
+        { value: "kontinent", label: "kontinent" },
+        { value: "inkontinent", label: "inkontinent" }
+      ],
+      showIf: { field: "ausscheidung_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "ausscheidung_unterstuetzung", section: 6, audience: "kunde", type: "multiselect",
+      label: "Ausscheidung: Wobei brauchen Sie Unterstützung?",
+      help: "Wobei brauchen Sie Hilfe rund um den Toilettengang? Sie können mehrere Punkte ankreuzen. Sehr persönlich und ganz freiwillig.",
+      sensitive: true,
+      options: [
+        { value: "wc", label: "Mobilisation auf WC" },
+        { value: "toilettenstuhl", label: "Mobilisation auf Toiletten-/ Duschstuhl" },
+        { value: "intimhygiene", label: "Intimhygiene" },
+        { value: "bekleidung", label: "Bekleidung richten" }
+      ],
+      showIf: { field: "ausscheidung_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "ausscheidung_neigung", section: 6, audience: "kunde", type: "multiselect",
+      label: "Ausscheidung: Neigung zu",
+      help: "Haben Sie öfter Beschwerden mit dem Darm? Sie können mehrere Punkte ankreuzen. Freiwillig.",
+      sensitive: true,
+      options: [
+        { value: "verstopfung", label: "Verstopfung" },
+        { value: "durchfall", label: "Durchfall" }
+      ],
+      showIf: { field: "ausscheidung_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "ausscheidung_hilfsmittel", section: 6, audience: "kunde", type: "multiselect",
+      label: "Ausscheidung: Hilfsmittel",
+      help: "Welche Hilfsmittel nutzen Sie? Sie können mehrere Punkte ankreuzen. Sehr persönlich und ganz freiwillig.",
+      sensitive: true,
+      options: [
+        { value: "inkontinenzartikel", label: "Inkontinenzartikel" },
+        { value: "spk", label: "Suprapubischer Dauerkatheter" },
+        { value: "stoma", label: "künstlicher Darmausgang" }
+      ],
+      showIf: { field: "ausscheidung_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "ausscheidung_eigene", section: 6, audience: "kunde", type: "textarea",
+      label: "Ausscheidung: eigene, sonstige Angaben",
+      help: "Möchten Sie dazu noch etwas in eigenen Worten schreiben? Freiwillig. Sie können das Feld auch leer lassen und im Gespräch darüber reden.",
+      sensitive: true,
+      showIf: { field: "ausscheidung_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
     },
     {
       id: "ernaehrung_selbststaendig", section: 6, audience: "kunde", type: "checkbox",
@@ -600,9 +774,65 @@
     {
       id: "ernaehrung", section: 6, audience: "kunde", type: "textarea",
       label: "Essen und Trinken: Wobei brauchen Sie Hilfe?",
-      help: "Wobei brauchen Sie beim Essen und Trinken Hilfe? Zum Beispiel Sonde oder besondere Kost. Gesundheitsangabe, freiwillig.",
+      help: "Ausgemustert (deprecated): ersetzt durch die einzelnen Felder zur Ernährung. Bleibt für alte Daten erhalten.",
       sensitive: true,
-      showIf: { field: "ernaehrung_selbststaendig", value: false }
+      showIf: { field: "ernaehrung_selbststaendig", value: false },
+      status: "deprecated", version: 2, changed: "2026-07-13"
+    },
+    {
+      id: "ernaehrung_kost", section: 6, audience: "kunde", type: "textarea",
+      label: "Ernährung: besondere / bevorzugte Kost",
+      help: "Essen Sie etwas Besonderes oder besonders gern? Zum Beispiel weiche Kost oder bestimmte Speisen. Freiwillig.",
+      sensitive: true,
+      showIf: { field: "ernaehrung_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "ernaehrung_zubereitung", section: 6, audience: "kunde", type: "multiselect",
+      label: "Ernährung: Wer bereitet das Essen zu?",
+      help: "Wer kocht Ihr Essen? Sie können mehrere Punkte ankreuzen. Freiwillig.",
+      sensitive: true,
+      options: [
+        { value: "assistenten", label: "durch Assistenten" },
+        { value: "essen_auf_raedern", label: "Essen auf Rädern" },
+        { value: "selbst_angehoerige", label: "selbstständig / Angehörige" }
+      ],
+      showIf: { field: "ernaehrung_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "ernaehrung_essen_muss", section: 6, audience: "kunde", type: "multiselect",
+      label: "Ernährung: Das Essen muss ...",
+      help: "Braucht Ihr Essen eine besondere Vorbereitung? Sie können mehrere Punkte ankreuzen. Freiwillig.",
+      sensitive: true,
+      options: [
+        { value: "angereicht", label: "angereicht werden" },
+        { value: "vorbereitet", label: "vorbereitet werden" }
+      ],
+      showIf: { field: "ernaehrung_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "ernaehrung_hilfsmittel", section: 6, audience: "kunde", type: "multiselect",
+      label: "Ernährung: Hilfsmittel",
+      help: "Welche Hilfsmittel brauchen Sie beim Essen und Trinken? Sie können mehrere Punkte ankreuzen. Freiwillig.",
+      sensitive: true,
+      options: [
+        { value: "besonderes_besteck", label: "besonderes Besteck" },
+        { value: "strohhalm", label: "trinken mit Strohhalm" },
+        { value: "schluckstoerung", label: "vorliegende Schluckstörung" },
+        { value: "peg", label: "Magensonde (PEG)" }
+      ],
+      showIf: { field: "ernaehrung_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "ernaehrung_eigene", section: 6, audience: "kunde", type: "textarea",
+      label: "Ernährung: eigene, sonstige Angaben",
+      help: "Möchten Sie dazu noch etwas in eigenen Worten schreiben? Freiwillig. Sie können das Feld auch leer lassen und im Gespräch darüber reden.",
+      sensitive: true,
+      showIf: { field: "ernaehrung_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
     },
 
     /* --- Behandlungspflege --- */
