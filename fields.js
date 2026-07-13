@@ -844,9 +844,41 @@
     {
       id: "medikamente", section: 6, audience: "kunde", type: "textarea",
       label: "Medikamente: Wobei brauchen Sie Hilfe?",
-      help: "Welche Hilfe brauchen Sie bei Medikamenten? Gibt es besondere Medikamente, zum Beispiel Spritzen? Gesundheitsangabe, freiwillig.",
+      help: "Ausgemustert (deprecated): ersetzt durch die einzelnen Felder zur Medikamentengabe. Bleibt für alte Daten erhalten.",
       sensitive: true,
-      showIf: { field: "medikamente_selbststaendig", value: false }
+      showIf: { field: "medikamente_selbststaendig", value: false },
+      status: "deprecated", version: 2, changed: "2026-07-13"
+    },
+    {
+      id: "medikamente_art", section: 6, audience: "kunde", type: "multiselect",
+      label: "Medikamentengabe: Wie werden die Medikamente gegeben?",
+      help: "Auf welchem Weg bekommen Sie Ihre Medikamente? Sie können mehrere Punkte ankreuzen. Freiwillig.",
+      sensitive: true,
+      options: [
+        { value: "oral", label: "oral" },
+        { value: "peg", label: "per Magensonde (PEG)" },
+        { value: "rektal", label: "rektal" },
+        { value: "spritzen", label: "Spritzen (i.v. / i.m. / s.c.)" },
+        { value: "sonstiges", label: "Sonstiges" }
+      ],
+      showIf: { field: "medikamente_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "medikamente_stellen", section: 6, audience: "kunde", type: "textarea",
+      label: "Medikamente stellen / vorbereiten / organisieren",
+      help: "Wer stellt Ihre Medikamente, bereitet sie vor oder organisiert sie? Zum Beispiel Sie selbst, Angehörige, ein Pflegedienst oder die Assistenz. Freiwillig.",
+      sensitive: true,
+      showIf: { field: "medikamente_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "medikamente_eigene", section: 6, audience: "kunde", type: "textarea",
+      label: "Medikamentengabe: eigene, sonstige Angaben",
+      help: "Möchten Sie dazu noch etwas in eigenen Worten schreiben? Freiwillig. Sie können das Feld auch leer lassen und im Gespräch darüber reden.",
+      sensitive: true,
+      showIf: { field: "medikamente_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
     },
     {
       id: "hilfsmittel_selbststaendig", section: 6, audience: "kunde", type: "checkbox",
@@ -856,9 +888,25 @@
     {
       id: "hilfsmittel", section: 6, audience: "kunde", type: "textarea",
       label: "Hilfsmittel: Welche nutzen Sie und wobei brauchen Sie Hilfe?",
-      help: "Welche Hilfsmittel nutzen Sie? Wobei brauchen Sie dabei Hilfe? Gesundheitsangabe, freiwillig.",
+      help: "Ausgemustert (deprecated): ersetzt durch das Auswahlfeld zu den Hilfsmitteln. Bleibt für alte Daten erhalten.",
       sensitive: true,
-      showIf: { field: "hilfsmittel_selbststaendig", value: false }
+      showIf: { field: "hilfsmittel_selbststaendig", value: false },
+      status: "deprecated", version: 2, changed: "2026-07-13"
+    },
+    {
+      id: "hilfsmittel_optionen", section: 6, audience: "kunde", type: "multiselect",
+      label: "Hilfsmittel: Welche nutzen Sie?",
+      help: "Welche Hilfsmittel nutzen Sie? Sie können mehrere Punkte ankreuzen. Freiwillig.",
+      sensitive: true,
+      options: [
+        { value: "kompressionsstruempfe", label: "Kompressionsstrümpfe" },
+        { value: "orthesen", label: "Orthesen" },
+        { value: "hoergeraete", label: "Hörgeräte" },
+        { value: "brille", label: "Brille" },
+        { value: "sonstiges", label: "Sonstiges" }
+      ],
+      showIf: { field: "hilfsmittel_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
     },
     {
       id: "wundversorgung_selbststaendig", section: 6, audience: "kunde", type: "checkbox",
@@ -867,10 +915,11 @@
     },
     {
       id: "wundversorgung", section: 6, audience: "kunde", type: "textarea",
-      label: "Wundversorgung: Wobei brauchen Sie Hilfe?",
-      help: "Haben Sie chronische Wunden oder Druckstellen, die versorgt werden müssen? Gesundheitsangabe, freiwillig.",
+      label: "Verbände von Wunden / Einstichstellen — bitte beschreiben",
+      help: "Verbände von Wunden (z. B. Druckgeschwüre) oder Einstichstellen (z. B. von PEG / SPK). Bitte beschreiben Sie, was zu versorgen ist. Freiwillig — Sie können es auch im Gespräch klären.",
       sensitive: true,
-      showIf: { field: "wundversorgung_selbststaendig", value: false }
+      showIf: { field: "wundversorgung_selbststaendig", value: false },
+      version: 2, changed: "2026-07-13"
     },
     {
       id: "beatmung_selbststaendig", section: 6, audience: "kunde", type: "checkbox",
@@ -880,9 +929,22 @@
     {
       id: "beatmung", section: 6, audience: "kunde", type: "textarea",
       label: "Beatmung / Sauerstoff: Wobei brauchen Sie Hilfe?",
-      help: "Werden Sie beatmet oder brauchen Sie Sauerstoff? Welche Hilfe ist nötig? Gesundheitsangabe, freiwillig.",
+      help: "Ausgemustert (deprecated): ersetzt durch das Auswahlfeld zur Beatmung. Bleibt für alte Daten erhalten.",
       sensitive: true,
-      showIf: { field: "beatmung_selbststaendig", value: false }
+      showIf: { field: "beatmung_selbststaendig", value: false },
+      status: "deprecated", version: 2, changed: "2026-07-13"
+    },
+    {
+      id: "beatmung_optionen", section: 6, audience: "kunde", type: "multiselect",
+      label: "Beatmung: Was trifft zu?",
+      help: "Brauchen Sie Sauerstoff oder einen Hustenassistenten? Sie können mehrere Punkte ankreuzen. Freiwillig.",
+      sensitive: true,
+      options: [
+        { value: "sauerstoff", label: "Sauerstoff" },
+        { value: "hustenassistent", label: "Hustenassistent" }
+      ],
+      showIf: { field: "beatmung_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
     },
     {
       id: "werte_kontrolle_selbststaendig", section: 6, audience: "kunde", type: "checkbox",
@@ -892,9 +954,32 @@
     {
       id: "werte_kontrolle", section: 6, audience: "kunde", type: "textarea",
       label: "Werte kontrollieren: Wobei brauchen Sie Hilfe?",
-      help: "Welche Werte müssen kontrolliert werden und wobei brauchen Sie Hilfe? Gesundheitsangabe, freiwillig.",
+      help: "Ausgemustert (deprecated): ersetzt durch das Auswahlfeld zur Kontrolle von Werten. Bleibt für alte Daten erhalten.",
       sensitive: true,
-      showIf: { field: "werte_kontrolle_selbststaendig", value: false }
+      showIf: { field: "werte_kontrolle_selbststaendig", value: false },
+      status: "deprecated", version: 2, changed: "2026-07-13"
+    },
+    {
+      id: "werte_kontrolle_optionen", section: 6, audience: "kunde", type: "multiselect",
+      label: "Kontrolle von Werten: Welche Werte werden kontrolliert?",
+      help: "Welche Werte müssen regelmäßig gemessen werden? Sie können mehrere Punkte ankreuzen. Freiwillig.",
+      sensitive: true,
+      options: [
+        { value: "spo2", label: "SpO2 (Sauerstoffsättigung)" },
+        { value: "blutdruck", label: "Blutdruck" },
+        { value: "blutzucker", label: "Blutzucker" },
+        { value: "sonstiges", label: "Sonstiges" }
+      ],
+      showIf: { field: "werte_kontrolle_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "werte_kontrolle_sonstiges", section: 6, audience: "kunde", type: "textarea",
+      label: "Kontrolle von Werten: Sonstiges",
+      help: "Wenn oben Sonstiges zutrifft: Welche weiteren Werte werden kontrolliert? Freiwillig.",
+      sensitive: true,
+      showIf: { field: "werte_kontrolle_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
     },
     {
       id: "einmalkatheter_selbststaendig", section: 6, audience: "kunde", type: "checkbox",
@@ -907,6 +992,23 @@
       help: "Brauchen Sie Hilfe beim Katheterisieren? Das ist eine sehr persönliche Angabe und ganz freiwillig.",
       sensitive: true,
       showIf: { field: "einmalkatheter_selbststaendig", value: false }
+    },
+    {
+      id: "digitales_ausraeumen", section: 6, audience: "kunde", type: "select",
+      label: "Digitales Ausräumen nötig?",
+      help: "Brauchen Sie Hilfe beim Entleeren des Darms mit der Hand (digitales Ausräumen)? Das ist eine sehr persönliche Angabe und ganz freiwillig. Sie können es auch im Gespräch klären.",
+      sensitive: true,
+      options: JA_NEIN,
+      showIf: { field: "einmalkatheter_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "behandlungspflege_eigene", section: 6, audience: "kunde", type: "textarea",
+      label: "Behandlungspflege: eigene, sonstige Angaben",
+      help: "Möchten Sie zur Behandlungspflege noch etwas in eigenen Worten schreiben? Freiwillig. Sie können das Feld auch leer lassen und im Gespräch darüber reden.",
+      sensitive: true,
+      showIf: { field: "einmalkatheter_selbststaendig", value: false },
+      version: 1, changed: "2026-07-13"
     },
 
     /* ============================================================

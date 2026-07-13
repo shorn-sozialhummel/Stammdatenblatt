@@ -3,6 +3,55 @@
 Alle nennenswerten Änderungen an diesem Projekt.
 Format lose nach „Keep a Changelog". Additiv — nichts wird gelöscht.
 
+## [0.6.0] — 2026-07-13 — Abschnitt 6, Teil 2: Behandlungspflege an die Vorlage angeglichen
+
+Grundlage: Stammdatenblatt Seite 6, Block „Behandlungspflege". Gleiches Muster
+wie bei der Grundpflege: bisheriges Freitextfeld auf `status: "deprecated"`, neues
+`multiselect` daneben, `…_selbststaendig`-Schalter bleibt, alle neuen Felder
+`sensitive` und per `showIf` an den jeweiligen Schalter gekoppelt.
+
+### Ausgemustert (`status: "deprecated"`, bleiben für alte Daten)
+
+- `medikamente`, `hilfsmittel`, `beatmung`, `werte_kontrolle` (je `version: 2`).
+
+### Neu
+
+- **Medikamentengabe:** `medikamente_art` (oral · per Magensonde (PEG) · rektal ·
+  Spritzen (i.v./i.m./s.c.) · Sonstiges), `medikamente_stellen` (Freitext: wer
+  stellt/vorbereitet/organisiert die Medikamente), `medikamente_eigene` (Freitext).
+- **Hilfsmittel:** `hilfsmittel_optionen` (Kompressionsstrümpfe · Orthesen ·
+  Hörgeräte · Brille · Sonstiges).
+- **Beatmung:** `beatmung_optionen` (Sauerstoff · Hustenassistent).
+- **Kontrolle von Werten:** `werte_kontrolle_optionen` (SpO2 · Blutdruck ·
+  Blutzucker · Sonstiges) + `werte_kontrolle_sonstiges` (Freitext).
+- `digitales_ausraeumen` (ja/nein).
+- `behandlungspflege_eigene` (Freitext „eigene, sonstige Angaben" für den Block).
+
+  Alle neuen Felder `version: 1`, `changed: 2026-07-13`, sachliche Hilfetexte in
+  einfacher Sprache mit Hinweis auf Freiwilligkeit.
+
+### Geändert (nur Label/Hilfetext, kein Typwechsel)
+
+- `wundversorgung`: bleibt Freitext; Label und Hilfetext an den Vorlagen-Wortlaut
+  angeglichen („Verbände von Wunden (z. B. Druckgeschwüre) / Einstichstellen
+  (z. B. von PEG / SPK). Bitte beschreiben."). `version: 2`, `changed: 2026-07-13`.
+
+### Unverändert (bewusst)
+
+- `einmalkatheter` und `einmalkatheter_selbststaendig` unverändert (waren bereits
+  vorhanden).
+- `form.js`, `pdf.js`, `check-fields.js`, `index.html`, `styles.css` nicht
+  angefasst. `node check-fields.js` läuft fehlerfrei (146 Felder, 15 deprecated).
+
+### Offen / zur Entscheidung (nicht eigenmächtig umgebaut)
+
+- **Kopplung von `digitales_ausraeumen` und `behandlungspflege_eigene`:** beide
+  sind an `einmalkatheter_selbststaendig` gekoppelt (in der Vorlage stehen sie in
+  demselben Unterblock). Alternativen: eigener Schalter oder ohne `showIf`.
+- **Eigenes „Beatmung: ja/nein":** die Vorlage listet unter der Überschrift
+  „Beatmung" nur Sauerstoff/Hustenassistent. Ein separates Ja/Nein-Feld
+  („werden Sie beatmet?") wäre denkbar — bei Bedarf ergänze ich es nach Freigabe.
+
 ## [0.5.0] — 2026-07-13 — Abschnitt 6, Teil 1: Grundpflege an die Vorlage angeglichen
 
 Grundlage: Stammdatenblatt Seite 5 und Ernährungsblock Seite 6, Punkt 9
