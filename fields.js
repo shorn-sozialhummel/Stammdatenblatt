@@ -686,39 +686,67 @@
     {
       id: "wunsch_assistenz_geschlecht", section: 7, audience: "kunde", type: "select",
       label: "Gewünschtes Geschlecht der Assistenzkraft",
-      help: "Wünschen Sie sich eine weibliche oder männliche Assistenzkraft? Gemeint ist die Assistenzkraft, nicht Sie selbst. Freiwillig.",
+      help: "Wünschen Sie sich eine männliche oder weibliche Assistenzkraft? Wenn es Ihnen egal ist, wählen Sie unwichtig. Gemeint ist die Assistenzkraft, nicht Sie selbst. Freiwillig.",
       options: [
-        { value: "egal", label: "Ist mir egal" },
+        { value: "maennlich", label: "männlich" },
         { value: "weiblich", label: "weiblich" },
-        { value: "maennlich", label: "männlich" }
-      ]
+        { value: "unwichtig", label: "unwichtig" }
+      ],
+      version: 2, changed: "2026-07-13"
+    },
+    {
+      id: "wunsch_assistenz_alter_von", section: 7, audience: "kunde", type: "number",
+      label: "Gewünschtes Alter der Assistenzkraft — von",
+      help: "Falls Sie sich ein bestimmtes Alter der Assistenzkraft wünschen: ab welchem Alter (in Jahren)? Freiwillig. Sie können auch nur eines der beiden Felder ausfüllen.",
+      placeholder: "z. B. 20",
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "wunsch_assistenz_alter_bis", section: 7, audience: "kunde", type: "number",
+      label: "Gewünschtes Alter der Assistenzkraft — bis",
+      help: "Bis zu welchem Alter (in Jahren)? Freiwillig. Wenn Sie beide Felder ausfüllen, muss der Wert bei von kleiner oder gleich dem Wert bei bis sein.",
+      placeholder: "z. B. 60",
+      version: 1, changed: "2026-07-13"
     },
     {
       id: "wunsch_assistenz_rauchen", section: 7, audience: "kunde", type: "select",
       label: "Darf die Assistenzkraft rauchen?",
-      help: "Ist es für Sie in Ordnung, wenn die Assistenzkraft raucht? Gemeint ist die Assistenzkraft, nicht Sie selbst. Freiwillig.",
+      help: "Wenn ja, wo ist es für Sie in Ordnung? Gemeint ist die Assistenzkraft, nicht Sie selbst. Freiwillig.",
       options: [
-        { value: "egal", label: "Ist mir egal" },
-        { value: "ja", label: "Ja, darf rauchen" },
-        { value: "nein", label: "Nein, bitte nicht" }
-      ]
+        { value: "drinnen", label: "drinnen" },
+        { value: "draussen", label: "draußen" },
+        { value: "ausserhalb_dienstzeiten", label: "außerhalb der Dienstzeiten" },
+        { value: "nur_nichtraucher", label: "nur Nichtraucher" }
+      ],
+      version: 2, changed: "2026-07-13"
     },
     {
-      id: "wunsch_assistenz_deutsch", section: 7, audience: "kunde", type: "text",
+      id: "wunsch_assistenz_deutsch", section: 7, audience: "kunde", type: "select",
       label: "Geforderte Deutschkenntnisse der Assistenzkraft",
-      help: "Wie gut muss die Assistenzkraft Deutsch sprechen? Zum Beispiel: für einfache Gespräche reicht. Gemeint ist die Assistenzkraft. Freiwillig."
+      help: "Wie gut muss die Assistenzkraft Deutsch können? Gemeint ist die Assistenzkraft. Freiwillig.",
+      options: [
+        { value: "ausreichend", label: "ausreichend (verstehen)" },
+        { value: "gut", label: "gut (verstehen/sprechen)" },
+        { value: "sehr_gut", label: "sehr gut (verhandlungssicher)" }
+      ],
+      version: 2, changed: "2026-07-13"
     },
     {
       id: "wunsch_assistenz_pflegeerfahrung", section: 7, audience: "kunde", type: "select",
-      label: "Soll die Assistenzkraft Pflegeerfahrung haben?",
-      help: "Wünschen Sie sich, dass die Assistenzkraft schon Erfahrung in der Pflege hat? Freiwillig.",
-      options: JA_NEIN_EGAL
+      label: "Wie wichtig ist Pflegeerfahrung der Assistenzkraft?",
+      help: "Wie wichtig ist Ihnen, dass die Assistenzkraft schon Erfahrung in der Pflege hat? Freiwillig.",
+      options: [
+        { value: "wichtig", label: "wichtig" },
+        { value: "weniger_wichtig", label: "weniger wichtig" },
+        { value: "zwingend", label: "zwingend erforderlich" }
+      ],
+      version: 2, changed: "2026-07-13"
     },
     {
-      id: "wunsch_assistenz_fuehrerschein", section: 7, audience: "kunde", type: "select",
-      label: "Soll die Assistenzkraft einen Führerschein haben?",
-      help: "Brauchen Sie eine Assistenzkraft, die Auto fahren kann? Freiwillig.",
-      options: JA_NEIN_EGAL
+      id: "wunsch_assistenz_fuehrerschein", section: 7, audience: "kunde", type: "textarea",
+      label: "Führerschein / Auto / Fahrerfahrung",
+      help: "Soll die Assistenzkraft einen Führerschein haben oder Auto fahren können? Brauchen Sie Fahrerfahrung, evtl. auch mit größeren Fahrzeugen? Schreiben Sie es hier auf. Freiwillig.",
+      version: 2, changed: "2026-07-13"
     },
     {
       id: "wunsch_assistenz_tagesablauf", section: 7, audience: "kunde", type: "textarea",

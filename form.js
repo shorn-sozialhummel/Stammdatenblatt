@@ -304,6 +304,21 @@
         problems.push({ id: f.id, msg: "Bitte prüfen Sie die E-Mail-Adresse: " + f.label + "." });
       }
     });
+
+    // Altersspanne der Assistenzkraft: wenn beide ausgefüllt, muss von <= bis sein
+    var von = state.values["wunsch_assistenz_alter_von"];
+    var bis = state.values["wunsch_assistenz_alter_bis"];
+    var vonFilled = von != null && String(von).trim() !== "";
+    var bisFilled = bis != null && String(bis).trim() !== "";
+    if (sec === 7 && vonFilled && bisFilled) {
+      var nVon = Number(von), nBis = Number(bis);
+      if (isFinite(nVon) && isFinite(nBis) && nVon > nBis) {
+        problems.push({
+          id: "wunsch_assistenz_alter_bis",
+          msg: "Bitte prüfen Sie das Alter: der Wert bei 'von' darf nicht größer sein als der Wert bei 'bis'."
+        });
+      }
+    }
     return problems;
   }
 

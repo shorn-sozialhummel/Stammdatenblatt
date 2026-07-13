@@ -3,6 +3,43 @@
 Alle nennenswerten Änderungen an diesem Projekt.
 Format lose nach „Keep a Changelog". Additiv — nichts wird gelöscht.
 
+## [0.4.0] — 2026-07-13 — Abschnitt 7 (Wünsche an die Assistenzkraft) an die Vorlage angeglichen
+
+Grundlage: „Wünsche des Kunden", Seite 1 und 2. Optionen wörtlich aus der Vorlage.
+
+### Geändert (Optionen/Typ wörtlich aus der Vorlage W.1)
+
+- `wunsch_assistenz_geschlecht`: Optionen jetzt **männlich · weiblich ·
+  unwichtig** (statt egal/weiblich/männlich).
+- `wunsch_assistenz_deutsch`: `text` → `select` (**ausreichend (verstehen) ·
+  gut (verstehen/sprechen) · sehr gut (verhandlungssicher)**).
+- `wunsch_assistenz_pflegeerfahrung`: Optionen jetzt **wichtig · weniger wichtig ·
+  zwingend erforderlich** (statt Ja/Nein/egal).
+- `wunsch_assistenz_rauchen`: Optionen jetzt **drinnen · draußen · außerhalb der
+  Dienstzeiten · nur Nichtraucher** (statt egal/Ja/Nein).
+- `wunsch_assistenz_fuehrerschein`: `select` (Ja/Nein/egal) → **Freitext**
+  (`textarea`) „Führerschein / Auto / Fahrerfahrung", passend zur Freitextzeile
+  der Vorlage W.2. (Umgestellt, kein zweites Feld angelegt.)
+
+### Neu (fehlten, stehen aber in Vorlage W.1)
+
+- `wunsch_assistenz_alter_von` und `wunsch_assistenz_alter_bis` (je Zahl,
+  optional) — bilden die Altersspanne „Alter ___ bis ___ Jahre".
+- **Validierung** (in `form.js`): Sind in Abschnitt 7 beide Felder ausgefüllt,
+  muss „von" ≤ „bis" sein; sonst Fehlermeldung (`aria-invalid`, `aria-live`) und
+  „Weiter" wird blockiert. Ein einzeln ausgefülltes Feld ist erlaubt.
+
+### Geprüft, bereits vorhanden (Vorlage W.2) — unverändert
+
+- `wunsch_assistenz_tagesablauf` (Tagesablauf, Arbeit/Arztbesuche) und
+  `wunsch_assistenz_freizeit` (Freizeitgestaltung) sind bereits als Freitext
+  vorhanden — keine Änderung nötig.
+
+Für alle geänderten/neuen Felder: Hilfetext angepasst, `version` erhöht,
+`changed: 2026-07-13`. `node check-fields.js` läuft fehlerfrei (118 Felder,
+davon 4 deprecated). Abschnitt 6 und die restlichen fehlenden Felder aus
+`ABGLEICH.md` bewusst unangetastet.
+
 ## [0.3.0] — 2026-07-13 — Feldtypen Abschnitt 2/3/4 an die Vorlagen angeglichen
 
 Aus Freitextfeldern werden Auswahlfelder mit genau den Optionen der Vorlage.
