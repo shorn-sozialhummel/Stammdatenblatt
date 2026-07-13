@@ -15,7 +15,7 @@
  *   - `section` ist eine Zahl 1..8                          ← NEU
  *   - `audience` ist "kunde" oder "intern"                  ← NEU
  *   - bei `sensitive: true` ist das Feld NICHT `required`   ← NEU
- *   - select/radio/checkboxgroup haben eine Optionsliste
+ *   - select/radio/checkboxgroup/multiselect haben eine Optionsliste
  *   - `showIf` verweist auf ein existierendes Feld
  *   - genau ein required-Feld: `name`
  */
@@ -26,9 +26,10 @@ var FIELDS = require("./fields.js");
 
 var VALID_TYPES = [
   "text", "textarea", "date", "tel", "email", "number",
-  "select", "radio", "checkbox", "checkboxgroup"
+  "select", "radio", "checkbox", "checkboxgroup", "multiselect"
 ];
-var OPTION_TYPES = ["select", "radio", "checkboxgroup"];
+var OPTION_TYPES = ["select", "radio", "checkboxgroup", "multiselect"];
+var VALID_STATUS = ["active", "deprecated"];
 var VALID_AUDIENCE = ["kunde", "intern"];
 var MIN_SECTION = 1;
 var MAX_SECTION = 8;
@@ -138,9 +139,9 @@ FIELDS.forEach(function (f, i) {
     }
   }
 
-  // deprecated muss boolean sein, wenn gesetzt
-  if (typeof f.deprecated !== "undefined" && typeof f.deprecated !== "boolean") {
-    err(f.id, "deprecated muss true/false sein.");
+  // status muss "active" oder "deprecated" sein, wenn gesetzt
+  if (typeof f.status !== "undefined" && VALID_STATUS.indexOf(f.status) === -1) {
+    err(f.id, "status muss '" + VALID_STATUS.join("' oder '") + "' sein (ist: " + f.status + ").");
   }
 });
 
@@ -158,7 +159,7 @@ if (!idSet["name"]) {
 var total = FIELDS.length;
 var kunde = FIELDS.filter(function (f) { return f.audience === "kunde"; }).length;
 var intern = FIELDS.filter(function (f) { return f.audience === "intern"; }).length;
-var deprecated = FIELDS.filter(function (f) { return f.deprecated === true; }).length;
+var deprecated = FIELDS.filter(function (f) { return f.status === "deprecated"; }).length;
 
 console.log("check-fields.js — Prüfung der Feld-Registry");
 console.log("--------------------------------------------");

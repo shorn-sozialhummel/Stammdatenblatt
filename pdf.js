@@ -27,7 +27,7 @@
   // Wert lesbar machen (Optionen -> Labels, Boolean -> Ja)
   function readable(f, v) {
     if (f.type === "checkbox") return v === true ? "Ja" : "Nein";
-    if (f.type === "checkboxgroup") {
+    if (f.type === "checkboxgroup" || f.type === "multiselect") {
       var arr = Array.isArray(v) ? v : [];
       return arr.map(function (val) {
         var o = (f.options || []).filter(function (o) { return String(o.value) === String(val); })[0];

@@ -3,6 +3,65 @@
 Alle nennenswerten Änderungen an diesem Projekt.
 Format lose nach „Keep a Changelog". Additiv — nichts wird gelöscht.
 
+## [0.3.0] — 2026-07-13 — Feldtypen Abschnitt 2/3/4 an die Vorlagen angeglichen
+
+Aus Freitextfeldern werden Auswahlfelder mit genau den Optionen der Vorlage.
+Abschnitt 6 und 7 sowie fehlende Felder bleiben bewusst unangetastet.
+
+### Neu
+
+- **Feldtyp `multiselect`** (Mehrfachauswahl per Checkbox; Wert = Array von
+  values). Additiv ergänzt in `fields.js` (Registry + Doku-Kopf), im Renderer
+  `form.js` (rendert wie `checkboxgroup`), in der PDF/JSON-Ausgabe `pdf.js`
+  (Labels werden aufgelöst und mit Komma verbunden) und in `check-fields.js`
+  (gültiger Typ, braucht Optionsliste). Bestehende Typen unverändert.
+- **Deprecation über `status: "deprecated"`** statt der zuvor eingeführten
+  Eigenschaft `deprecated: true`. `fields.js`, `form.js`, `pdf.js` und
+  `check-fields.js` erkennen jetzt `status`. Doku-Kopf und Projektregel
+  entsprechend angepasst.
+- Neue Felder: `muttersprache` (Freitext), `sprache_hilfen` (multiselect),
+  `psychische_belastungen_eigene` (Freitext, sensitive).
+
+### Geändert (Freitext → Auswahl, Optionen wörtlich aus der Vorlage)
+
+- **Abschnitt 2**
+  - `sprache_kunde`: aufgeteilt → auf `status: "deprecated"` gesetzt (bleibt
+    für alte Daten erhalten); ersetzt durch `muttersprache` + `sprache_hilfen`
+    (Übersetzer/in notwendig · verstehen · verständliches Sprechen · über Talker).
+  - `rauchen_kunde`: `select` → `multiselect` (Raucher*in · Raucherhaushalt ·
+    nur draußen). Hilfetext: keine Auswahl = Nichtraucher.
+  - `psychische_belastungen`: `textarea` → `multiselect` (psychische Störung,
+    z. B. Depressionen · Ängste, Panikattacken · Suchtverhalten · Störung der
+    Impulskontrolle), plus Freitextfeld `psychische_belastungen_eigene`.
+- **Abschnitt 3**
+  - `pflegeleistungen`: `textarea` → `multiselect` (keine · Pflegegeld ·
+    Pflegesachleistungen · Kombileistungen · Persönliches Budget).
+  - `pflegegrad_gewuenscht`: Option „kein Pflegegrad" ergänzt (vor PG 1).
+- **Abschnitt 4**
+  - `familienstand`: `text` → `select` (ledig · verheiratet · verwitwet ·
+    geschieden · getrennt lebend · verpartnert).
+  - `lebenssituation`: `text` → `multiselect` (alleinlebend · Partnerschaft ·
+    Angehörige · Wohngemeinschaft).
+  - `wohnsituation_aktuell` (= „derzeit") und `wohnsituation_gewuenscht`:
+    `textarea` → `select` (Wohnung · Haus · Betreutes Wohnen ·
+    Alten-/behindertengerechtes Wohnen · Senioren-/Pflegeheim).
+  - `oepnv`: `text` → `multiselect` (Bus · Bahn · nein).
+
+  Für alle geänderten Felder: Hilfetext angepasst, `version` erhöht,
+  `changed: 2026-07-13` gesetzt.
+
+### Angepasst (Konsistenz `deprecated: true` → `status: "deprecated"`)
+
+- `int_bewo_leistungsart`, `int_bewo_kostentraeger`, `int_bewo_umfang`: von der
+  im vorigen Schritt eingeführten Eigenschaft `deprecated: true` auf
+  `status: "deprecated"` umgestellt (Inhalt unverändert).
+
+### Unverändert (bewusst)
+
+- Abschnitt 6 (Grund-/Behandlungspflege), Abschnitt 7 (`wunsch_assistenz_*`)
+  und alle in `ABGLEICH.md` als fehlend markierten Felder — kommen später.
+- `node check-fields.js` läuft fehlerfrei (116 Felder, davon 4 deprecated).
+
 ## [0.2.0] — 2026-07-13 — Abgleich mit den Papiervorlagen (Teil 1: Bedeutung & erfundene Felder)
 
 Grundlage: `ABGLEICH.md` (vollständiger Vergleich der Registry mit beiden

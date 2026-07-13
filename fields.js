@@ -7,7 +7,7 @@
  * (check-fields.js) lesen ausschliesslich aus dieser Registry.
  *
  * REGELN (siehe PROJEKT-ANWEISUNGEN.md):
- *   - Additiv arbeiten. Felder werden NIE gelöscht, nur `deprecated: true` gesetzt.
+ *   - Additiv arbeiten. Felder werden NIE gelöscht, nur `status: "deprecated"` gesetzt.
  *   - KEIN Feld ohne Hilfetext (`help`).
  *   - `sensitive: true` (Gesundheit/psychische Daten) => das Feld ist freiwillig
  *     und darf NICHT `required` sein.
@@ -18,15 +18,19 @@
  *   section    (1..8)    Abschnitt im Formular
  *   audience   ("kunde"|"intern")
  *   type       ("text"|"textarea"|"date"|"tel"|"email"|"number"|
- *               "select"|"radio"|"checkbox"|"checkboxgroup")
+ *               "select"|"radio"|"checkbox"|"checkboxgroup"|"multiselect")
+ *               multiselect = Mehrfachauswahl per Checkbox; Wert ist ein Array
+ *               von values (wie checkboxgroup).
  *   label      (String)  sichtbare Beschriftung
  *   help       (String)  Hilfetext in einfacher Sprache — PFLICHT
  *   required   (Bool)    optional, Standard false. Nur `name` ist true.
  *   sensitive  (Bool)    optional, Standard false.
- *   options    (Array)   nur bei select/radio/checkboxgroup: [{value,label}]
+ *   options    (Array)   nur bei select/radio/checkboxgroup/multiselect: [{value,label}]
  *   showIf     (Object)  optional: { field: "<id>", value: <wert> }
  *   placeholder(String)  optional
- *   deprecated (Bool)    optional, Standard false. Ausgemustertes Feld.
+ *   status     (String)  optional: "active" (Standard) oder "deprecated".
+ *                        Ausgemusterte Felder bleiben erhalten, werden aber im
+ *                        Formular und in PDF/JSON übersprungen.
  *   note       (String)  optional, interne Notiz (z.B. Quelle/„gegen PDF prüfen")
  *   version    (Number)  optional, Änderungsstand des einzelnen Feldes (Start 1)
  *   changed    (String)  optional, Datum der letzten Änderung (YYYY-MM-DD)
@@ -51,6 +55,14 @@
     { value: "egal", label: "Ist mir egal" },
     { value: "ja", label: "Ja" },
     { value: "nein", label: "Nein" }
+  ];
+  // Wohnformen (Vorlage Stammdatenblatt S. 3) — für „derzeit" und „gewünscht"
+  var WOHNFORMEN = [
+    { value: "wohnung", label: "Wohnung" },
+    { value: "haus", label: "Haus" },
+    { value: "betreutes_wohnen", label: "Betreutes Wohnen" },
+    { value: "barrierefrei", label: "Alten-/ behindertengerechtes Wohnen" },
+    { value: "pflegeheim", label: "Senioren-/ Pflegeheim" }
   ];
 
   var FIELDS = [
@@ -134,21 +146,60 @@
       sensitive: true, placeholder: "z. B. 68 kg"
     },
     {
-      id: "rauchen_kunde", section: 2, audience: "kunde", type: "select",
-      label: "Rauchen Sie?",
-      help: "Rauchen Sie selbst? Gemeint sind Sie, nicht die Assistenzkraft. Freiwillig.",
-      sensitive: true, options: JA_NEIN
+      id: "rauchen_kunde", section: 2, audience: "kunde", type: "multiselect",
+      label: "Rauchen — was trifft auf Sie zu?",
+      help: "Gemeint sind Sie selbst, nicht die Assistenzkraft. Sie können mehrere Punkte ankreuzen. Wenn Sie nichts ankreuzen, gehen wir davon aus, dass Sie nicht rauchen. Freiwillig.",
+      sensitive: true,
+      options: [
+        { value: "raucher", label: "Raucher*in" },
+        { value: "raucherhaushalt", label: "Raucherhaushalt" },
+        { value: "nur_draussen", label: "nur draußen" }
+      ],
+      version: 2, changed: "2026-07-13"
     },
     {
       id: "sprache_kunde", section: 2, audience: "kunde", type: "text",
       label: "Muttersprache / Sprache im Alltag",
-      help: "Welche Sprache sprechen Sie am liebsten? Brauchen Sie manchmal jemanden zum Übersetzen? Gemeint sind Sie selbst. Freiwillig."
+      help: "Ausgemustert (deprecated): aufgeteilt in die Felder muttersprache (Freitext) und sprache_hilfen (Auswahl). Bleibt für alte Daten erhalten.",
+      status: "deprecated", version: 2, changed: "2026-07-13"
     },
     {
-      id: "psychische_belastungen", section: 2, audience: "kunde", type: "textarea",
+      id: "muttersprache", section: 2, audience: "kunde", type: "text",
+      label: "Muttersprache / Sprache im Alltag",
+      help: "Welche Sprache sprechen Sie am liebsten? Gemeint sind Sie selbst, nicht die Assistenzkraft. Freiwillig.",
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "sprache_hilfen", section: 2, audience: "kunde", type: "multiselect",
+      label: "Brauchen Sie Hilfe bei der Verständigung?",
+      help: "Wählen Sie aus, was auf Sie zutrifft. Sie können auch mehrere Punkte ankreuzen. Wenn nichts zutrifft, lassen Sie es leer. Freiwillig.",
+      options: [
+        { value: "uebersetzer", label: "Übersetzer/in notwendig" },
+        { value: "verstehen", label: "verstehen" },
+        { value: "verstaendliches_sprechen", label: "verständliches Sprechen" },
+        { value: "talker", label: "über Talker" }
+      ],
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "psychische_belastungen", section: 2, audience: "kunde", type: "multiselect",
       label: "Psychische Belastungen",
-      help: "Gibt es seelische Belastungen, die wir kennen sollten? Das ist eine sehr persönliche Angabe und ganz freiwillig. Sie können dieses Feld leer lassen und lieber im Gespräch darüber reden.",
-      sensitive: true
+      help: "Damit unsere Assistenz sich gut auf Sie einstellen kann: Ist etwas davon bei Ihnen bekannt? Sie können mehrere Punkte ankreuzen. Das ist eine sehr persönliche Angabe und ganz freiwillig — Sie können es leer lassen und lieber im Gespräch darüber reden.",
+      sensitive: true,
+      options: [
+        { value: "psych_stoerung", label: "psychische Störung, z. B. Depressionen" },
+        { value: "aengste", label: "Ängste, Panikattacken" },
+        { value: "suchtverhalten", label: "Suchtverhalten" },
+        { value: "impulskontrolle", label: "Störung der Impulskontrolle" }
+      ],
+      version: 2, changed: "2026-07-13"
+    },
+    {
+      id: "psychische_belastungen_eigene", section: 2, audience: "kunde", type: "textarea",
+      label: "Psychische Belastungen — eigene Angaben",
+      help: "Möchten Sie dazu noch etwas in eigenen Worten schreiben? Ganz freiwillig. Sie können das Feld auch leer lassen und im Gespräch darüber reden.",
+      sensitive: true,
+      version: 1, changed: "2026-07-13"
     },
 
     /* ============================================================
@@ -194,18 +245,28 @@
       help: "Möchten Sie einen höheren Pflegegrad beantragen? Wenn ja, welchen? Freiwillig.",
       sensitive: true,
       options: [
+        { value: "kein", label: "kein Pflegegrad" },
         { value: "1", label: "Pflegegrad 1" },
         { value: "2", label: "Pflegegrad 2" },
         { value: "3", label: "Pflegegrad 3" },
         { value: "4", label: "Pflegegrad 4" },
         { value: "5", label: "Pflegegrad 5" }
-      ]
+      ],
+      version: 2, changed: "2026-07-13"
     },
     {
-      id: "pflegeleistungen", section: 3, audience: "kunde", type: "textarea",
+      id: "pflegeleistungen", section: 3, audience: "kunde", type: "multiselect",
       label: "Pflegeleistungen, die Sie schon bekommen",
-      help: "Welche Leistungen bekommen Sie heute schon? Zum Beispiel Pflegegeld, Pflegesachleistung oder Verhinderungspflege. Freiwillig.",
-      sensitive: true
+      help: "Welche Leistungen bekommen Sie heute schon? Sie können mehrere Punkte ankreuzen. Freiwillig.",
+      sensitive: true,
+      options: [
+        { value: "keine", label: "keine" },
+        { value: "pflegegeld", label: "Pflegegeld" },
+        { value: "pflegesachleistungen", label: "Pflegesachleistungen" },
+        { value: "kombileistungen", label: "Kombileistungen" },
+        { value: "persoenliches_budget", label: "Persönliches Budget" }
+      ],
+      version: 2, changed: "2026-07-13"
     },
     {
       id: "gdb", section: 3, audience: "kunde", type: "text",
@@ -240,14 +301,18 @@
      * ABSCHNITT 4 — Wohnen und Umfeld
      * ============================================================ */
     {
-      id: "wohnsituation_aktuell", section: 4, audience: "kunde", type: "textarea",
+      id: "wohnsituation_aktuell", section: 4, audience: "kunde", type: "select",
       label: "Wie wohnen Sie zurzeit?",
-      help: "Zum Beispiel: eigene Wohnung, bei der Familie, in einer Einrichtung. Freiwillig."
+      help: "Wählen Sie die Wohnform, die zurzeit auf Sie zutrifft. Freiwillig.",
+      options: WOHNFORMEN,
+      version: 2, changed: "2026-07-13"
     },
     {
-      id: "wohnsituation_gewuenscht", section: 4, audience: "kunde", type: "textarea",
+      id: "wohnsituation_gewuenscht", section: 4, audience: "kunde", type: "select",
       label: "Wie möchten Sie gerne wohnen?",
-      help: "Wenn Sie sich etwas an Ihrer Wohnsituation wünschen, schreiben Sie es hier auf. Freiwillig."
+      help: "Wählen Sie die Wohnform, die Sie sich wünschen. Freiwillig.",
+      options: WOHNFORMEN,
+      version: 2, changed: "2026-07-13"
     },
     {
       id: "etage", section: 4, audience: "kunde", type: "text",
@@ -262,19 +327,41 @@
       options: JA_NEIN
     },
     {
-      id: "lebenssituation", section: 4, audience: "kunde", type: "text",
+      id: "lebenssituation", section: 4, audience: "kunde", type: "multiselect",
       label: "Mit wem leben Sie zusammen?",
-      help: "Zum Beispiel: allein, mit Partnerin oder Partner, mit der Familie. Freiwillig."
+      help: "Wählen Sie aus, was auf Sie zutrifft. Sie können mehrere Punkte ankreuzen. Freiwillig.",
+      options: [
+        { value: "alleinlebend", label: "alleinlebend" },
+        { value: "partnerschaft", label: "Partnerschaft" },
+        { value: "angehoerige", label: "Angehörige" },
+        { value: "wohngemeinschaft", label: "Wohngemeinschaft" }
+      ],
+      version: 2, changed: "2026-07-13"
     },
     {
-      id: "familienstand", section: 4, audience: "kunde", type: "text",
+      id: "familienstand", section: 4, audience: "kunde", type: "select",
       label: "Familienstand",
-      help: "Zum Beispiel ledig, verheiratet, verwitwet. Freiwillig."
+      help: "Wählen Sie Ihren Familienstand. Freiwillig.",
+      options: [
+        { value: "ledig", label: "ledig" },
+        { value: "verheiratet", label: "verheiratet" },
+        { value: "verwitwet", label: "verwitwet" },
+        { value: "geschieden", label: "geschieden" },
+        { value: "getrennt_lebend", label: "getrennt lebend" },
+        { value: "verpartnert", label: "verpartnert" }
+      ],
+      version: 2, changed: "2026-07-13"
     },
     {
-      id: "oepnv", section: 4, audience: "kunde", type: "text",
+      id: "oepnv", section: 4, audience: "kunde", type: "multiselect",
       label: "Anbindung an Bus und Bahn",
-      help: "Wie gut kommen Sie mit öffentlichen Verkehrsmitteln weg? Freiwillig."
+      help: "Womit sind Sie an den öffentlichen Nahverkehr angebunden? Sie können mehrere Punkte ankreuzen. Freiwillig.",
+      options: [
+        { value: "bus", label: "Bus" },
+        { value: "bahn", label: "Bahn" },
+        { value: "nein", label: "nein" }
+      ],
+      version: 2, changed: "2026-07-13"
     },
     {
       id: "rueckzugsraum", section: 4, audience: "kunde", type: "select",
@@ -782,19 +869,19 @@
       id: "int_bewo_leistungsart", section: 4, audience: "intern", type: "text",
       label: "BeWo: Leistungsart",
       help: "Intern: Platzhalter aus der ersten Fassung. Ausgemustert (deprecated): kommt im echten BeWo-Block der Vorlage (Nr. 10) nicht vor und wird durch die echten BeWo-Felder ersetzt. Nicht im Kundenformular.",
-      deprecated: true, version: 2, changed: "2026-07-13"
+      status: "deprecated", version: 2, changed: "2026-07-13"
     },
     {
       id: "int_bewo_kostentraeger", section: 4, audience: "intern", type: "text",
       label: "BeWo: Kostenträger",
       help: "Intern: Platzhalter aus der ersten Fassung. Ausgemustert (deprecated): kommt im echten BeWo-Block der Vorlage (Nr. 10) nicht vor und wird durch die echten BeWo-Felder ersetzt. Nicht im Kundenformular.",
-      deprecated: true, version: 2, changed: "2026-07-13"
+      status: "deprecated", version: 2, changed: "2026-07-13"
     },
     {
       id: "int_bewo_umfang", section: 4, audience: "intern", type: "text",
       label: "BeWo: Umfang / Fachleistungsstunden",
       help: "Intern: Platzhalter aus der ersten Fassung. Ausgemustert (deprecated): kommt im echten BeWo-Block der Vorlage (Nr. 10) nicht vor und wird durch die echten BeWo-Felder ersetzt. Nicht im Kundenformular.",
-      deprecated: true, version: 2, changed: "2026-07-13"
+      status: "deprecated", version: 2, changed: "2026-07-13"
     },
     {
       id: "int_bewo_sonstiges", section: 4, audience: "intern", type: "textarea",

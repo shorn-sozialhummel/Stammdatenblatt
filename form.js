@@ -94,7 +94,7 @@
   function hasValue(f) {
     var v = state.values[f.id];
     if (f.type === "checkbox") return v === true;
-    if (f.type === "checkboxgroup") return Array.isArray(v) && v.length > 0;
+    if (f.type === "checkboxgroup" || f.type === "multiselect") return Array.isArray(v) && v.length > 0;
     return v != null && String(v).trim() !== "";
   }
 
@@ -103,7 +103,7 @@
   // ============================================================
   function fieldsOfSection(sec) {
     return FIELDS.filter(function (f) {
-      return f.section === sec && f.audience === "kunde" && f.deprecated !== true;
+      return f.section === sec && f.audience === "kunde" && f.status !== "deprecated";
     });
   }
 
@@ -143,7 +143,7 @@
       return wrap;
     }
 
-    if (f.type === "checkboxgroup") {
+    if (f.type === "checkboxgroup" || f.type === "multiselect") {
       var fs = el("fieldset", { "class": "checkgroup", "aria-describedby": helpId });
       var legend = el("legend", null, f.label);
       if (f.sensitive) legend.appendChild(makeSensitiveBadge());
@@ -375,7 +375,7 @@
   function collectData() {
     var out = {};
     FIELDS.forEach(function (f) {
-      if (f.audience !== "kunde" || f.deprecated === true) return;
+      if (f.audience !== "kunde" || f.status === "deprecated") return;
       if (!isVisible(f)) return;
       if (!hasValue(f)) return;
       out[f.id] = state.values[f.id];
