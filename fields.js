@@ -28,6 +28,8 @@
  *   placeholder(String)  optional
  *   deprecated (Bool)    optional, Standard false. Ausgemustertes Feld.
  *   note       (String)  optional, interne Notiz (z.B. Quelle/„gegen PDF prüfen")
+ *   version    (Number)  optional, Änderungsstand des einzelnen Feldes (Start 1)
+ *   changed    (String)  optional, Datum der letzten Änderung (YYYY-MM-DD)
  */
 
 (function (root, factory) {
@@ -663,30 +665,32 @@
     },
     {
       id: "patientenverfuegung", section: 8, audience: "kunde", type: "select",
-      label: "Haben Sie eine Patientenverfügung?",
-      help: "In einer Patientenverfügung legen Sie fest, welche Behandlung Sie möchten, wenn Sie selbst nicht mehr entscheiden können. Freiwillig.",
+      label: "Möchten Sie Unterstützung beim Erstellen einer Patientenverfügung?",
+      help: "In einer Patientenverfügung legen Sie fest, welche Behandlung Sie möchten, wenn Sie selbst nicht mehr entscheiden können. Wir können Sie beim Erstellen unterstützen. Möchten Sie das? Freiwillig.",
       sensitive: true,
-      options: [
-        { value: "ja", label: "Ja" },
-        { value: "nein", label: "Nein" },
-        { value: "in_arbeit", label: "In Arbeit" }
-      ]
+      options: JA_NEIN,
+      version: 2, changed: "2026-07-13"
     },
     {
       id: "vorsorgevollmacht", section: 8, audience: "kunde", type: "select",
-      label: "Haben Sie eine Vorsorgevollmacht?",
-      help: "Mit einer Vorsorgevollmacht darf eine Person Ihres Vertrauens für Sie entscheiden. Freiwillig.",
-      options: [
-        { value: "ja", label: "Ja" },
-        { value: "nein", label: "Nein" },
-        { value: "in_arbeit", label: "In Arbeit" }
-      ]
+      label: "Möchten Sie Unterstützung beim Erstellen einer Vorsorgevollmacht?",
+      help: "Mit einer Vorsorgevollmacht darf eine Person Ihres Vertrauens für Sie entscheiden. Wir können Sie beim Erstellen unterstützen. Möchten Sie das? Freiwillig.",
+      options: JA_NEIN,
+      version: 2, changed: "2026-07-13"
     },
     {
-      id: "attest_krankenhaus", section: 8, audience: "kunde", type: "textarea",
-      label: "Attest für den Krankenhaus-Aufenthalt",
-      help: "Manche Menschen brauchen auch im Krankenhaus ihre Assistenz. Gibt es dazu ein Attest oder einen Bedarf? Gesundheitsangabe, freiwillig.",
-      sensitive: true
+      id: "attest_krankenhaus", section: 8, audience: "kunde", type: "select",
+      label: "Möchten Sie Unterstützung bei einem Attest zur Assistenz im Krankenhaus?",
+      help: "Manche Menschen brauchen auch im Krankenhaus ihre Assistenz. Dafür hilft ein Attest. Möchten Sie, dass wir Sie dabei unterstützen? Freiwillig.",
+      sensitive: true,
+      options: JA_NEIN,
+      version: 2, changed: "2026-07-13"
+    },
+    {
+      id: "organisation_sonstiges", section: 8, audience: "kunde", type: "textarea",
+      label: "Sonstiges (Organisation)",
+      help: "Gibt es sonst etwas zur Organisation, bei dem wir Sie unterstützen sollen? Schreiben Sie es hier auf. Freiwillig.",
+      version: 1, changed: "2026-07-13"
     },
     {
       id: "notfallplanung", section: 8, audience: "kunde", type: "textarea",
@@ -777,17 +781,20 @@
     {
       id: "int_bewo_leistungsart", section: 4, audience: "intern", type: "text",
       label: "BeWo: Leistungsart",
-      help: "Intern: Betreutes-Wohnen-Block (Nr. 10). Nicht im Kundenformular."
+      help: "Intern: Platzhalter aus der ersten Fassung. Ausgemustert (deprecated): kommt im echten BeWo-Block der Vorlage (Nr. 10) nicht vor und wird durch die echten BeWo-Felder ersetzt. Nicht im Kundenformular.",
+      deprecated: true, version: 2, changed: "2026-07-13"
     },
     {
       id: "int_bewo_kostentraeger", section: 4, audience: "intern", type: "text",
       label: "BeWo: Kostenträger",
-      help: "Intern: Kostenträger des Betreuten Wohnens (Nr. 10)."
+      help: "Intern: Platzhalter aus der ersten Fassung. Ausgemustert (deprecated): kommt im echten BeWo-Block der Vorlage (Nr. 10) nicht vor und wird durch die echten BeWo-Felder ersetzt. Nicht im Kundenformular.",
+      deprecated: true, version: 2, changed: "2026-07-13"
     },
     {
       id: "int_bewo_umfang", section: 4, audience: "intern", type: "text",
       label: "BeWo: Umfang / Fachleistungsstunden",
-      help: "Intern: Umfang der BeWo-Leistung (Nr. 10)."
+      help: "Intern: Platzhalter aus der ersten Fassung. Ausgemustert (deprecated): kommt im echten BeWo-Block der Vorlage (Nr. 10) nicht vor und wird durch die echten BeWo-Felder ersetzt. Nicht im Kundenformular.",
+      deprecated: true, version: 2, changed: "2026-07-13"
     },
     {
       id: "int_bewo_sonstiges", section: 4, audience: "intern", type: "textarea",

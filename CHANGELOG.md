@@ -3,6 +3,49 @@
 Alle nennenswerten Änderungen an diesem Projekt.
 Format lose nach „Keep a Changelog". Additiv — nichts wird gelöscht.
 
+## [0.2.0] — 2026-07-13 — Abgleich mit den Papiervorlagen (Teil 1: Bedeutung & erfundene Felder)
+
+Grundlage: `ABGLEICH.md` (vollständiger Vergleich der Registry mit beiden
+Original-PDFs). In diesem Schritt wurden **nur Bedeutungsfehler und erfundene
+Felder** korrigiert. Feldtypen, Optionen und fehlende Felder folgen später.
+
+### Neu
+
+- Feld `organisation_sonstiges` (Abschnitt 8, Freitext) — entspricht dem Feld
+  „Sonstiges" im Organisations-Block der Vorlage „Wünsche des Kunden" (S. 1).
+- Zwei additive Registry-Eigenschaften dokumentiert: `version` (Feld-Änderungs-
+  stand) und `changed` (Datum der letzten Änderung, `YYYY-MM-DD`).
+
+### Geändert (Bedeutung an die Vorlage angepasst — die Vorlage gewinnt)
+
+- `patientenverfuegung`: von „Haben Sie eine Patientenverfügung?" (Besitz) zu
+  **„Möchten Sie Unterstützung beim Erstellen einer Patientenverfügung?"**
+  (Wunsch nach Unterstützung). Optionen jetzt Ja/Nein (vorher Ja/Nein/In Arbeit),
+  Hilfetext angepasst. `version: 2`, `changed: 2026-07-13`.
+- `vorsorgevollmacht`: analog auf **„Möchten Sie Unterstützung beim Erstellen
+  einer Vorsorgevollmacht?"** umgestellt. Optionen Ja/Nein, Hilfetext angepasst.
+  `version: 2`, `changed: 2026-07-13`.
+- `attest_krankenhaus`: von Freitext (`textarea`) auf **Ja/Nein** (`select`)
+  umgestellt und zu **„Möchten Sie Unterstützung bei einem Attest zur Assistenz
+  im Krankenhaus?"** umformuliert. `version: 2`, `changed: 2026-07-13`.
+
+### Ausgemustert (`deprecated: true`, NICHT gelöscht)
+
+- `int_bewo_leistungsart`, `int_bewo_kostentraeger`, `int_bewo_umfang`:
+  Platzhalter der ersten Fassung ohne Entsprechung im echten BeWo-Block (Nr. 10)
+  der Vorlage. Als `deprecated` markiert, Hilfetext um den Hinweis ergänzt, dass
+  sie durch die echten BeWo-Felder ersetzt werden. `version: 2`,
+  `changed: 2026-07-13`.
+
+### Unverändert (bewusst)
+
+- `aufzug` bleibt aktiv und unverändert (sinnvolle Ergänzung).
+- `adresse_plz`, `adresse_ort`, `wunsch_assistenz_sonstiges`,
+  `int_bewo_sonstiges` bleiben unverändert.
+- Kein anderer Code angefasst (`index.html`, `form.js`, `pdf.js`, `styles.css`,
+  `check-fields.js` unverändert). `node check-fields.js` läuft fehlerfrei
+  (113 Felder, davon 3 deprecated).
+
 ## [0.1.0] — 2026-07-13 — Erste Fassung
 
 ### Neu
