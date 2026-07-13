@@ -177,3 +177,22 @@ stehen wegen der Options-Abweichung oben unter **c)**.
 
 **Es wurde in diesem Schritt nichts an `fields.js`, `index.html` oder anderem
 Code geändert.** Bitte um Ihr OK bzw. Ihre Priorisierung.
+
+---
+
+## Nachtrag: Beatmung — Abweichung Webformular ↔ Papiervorlage
+
+Die Papiervorlage (Stammdatenblatt S. 6) kennt unter der Überschrift „Beatmung"
+**nur** die Ankreuzpunkte *Sauerstoff* und *Hustenassistent* — **kein eigenes
+Feld dafür, ob überhaupt beatmet wird**. Medizinisch sind Sauerstoffgabe und
+Hustenassistent aber **keine** Beatmung.
+
+Das Webformular ergänzt deshalb bewusst ein zusätzliches Feld
+**`beatmung_vorhanden`** (nein · nicht-invasiv (Maske) · invasiv
+(Trachealkanüle)), das es in der Papiervorlage nicht gibt. Grund: Ob und wie
+jemand beatmet wird, bestimmt maßgeblich die nötige Qualifikation der
+Assistenzkraft.
+
+→ **Empfehlung:** Die Sozialhummel sollte prüfen, ob die **Papiervorlage
+entsprechend nachgezogen** wird (eigenes Beatmungsfeld ergänzen), damit Papier-
+und Webformular übereinstimmen.

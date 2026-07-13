@@ -922,6 +922,18 @@
       version: 2, changed: "2026-07-13"
     },
     {
+      id: "beatmung_vorhanden", section: 6, audience: "kunde", type: "select",
+      label: "Werden Sie beatmet?",
+      help: "Beatmung heißt: ein Gerät unterstützt oder übernimmt Ihr Atmen. Achtung: Sauerstoffgabe und ein Hustenassistent sind KEINE Beatmung. Wer beatmet wird, gibt es hier an. Diese Angabe hilft uns zu wissen, welche Qualifikation die Assistenzkraft braucht. Freiwillig.",
+      sensitive: true,
+      options: [
+        { value: "nein", label: "nein" },
+        { value: "nicht_invasiv", label: "nicht-invasiv (Maske)" },
+        { value: "invasiv", label: "invasiv (Trachealkanüle)" }
+      ],
+      version: 1, changed: "2026-07-13"
+    },
+    {
       id: "beatmung_selbststaendig", section: 6, audience: "kunde", type: "checkbox",
       label: "Beatmung / Sauerstoff: Ich komme weitgehend allein zurecht",
       help: "Umgang mit Beatmung oder Sauerstoffgerät. Haken setzen, wenn Sie das selbst schaffen."
@@ -994,21 +1006,26 @@
       showIf: { field: "einmalkatheter_selbststaendig", value: false }
     },
     {
+      id: "digitales_ausraeumen_selbststaendig", section: 6, audience: "kunde", type: "checkbox",
+      label: "Digitales Ausräumen: Ich komme weitgehend allein zurecht",
+      help: "Digitales Ausräumen heißt: den Darm mit der Hand entleeren. Haken setzen, wenn Sie das selbst schaffen.",
+      version: 1, changed: "2026-07-13"
+    },
+    {
       id: "digitales_ausraeumen", section: 6, audience: "kunde", type: "select",
       label: "Digitales Ausräumen nötig?",
       help: "Brauchen Sie Hilfe beim Entleeren des Darms mit der Hand (digitales Ausräumen)? Das ist eine sehr persönliche Angabe und ganz freiwillig. Sie können es auch im Gespräch klären.",
       sensitive: true,
       options: JA_NEIN,
-      showIf: { field: "einmalkatheter_selbststaendig", value: false },
-      version: 1, changed: "2026-07-13"
+      showIf: { field: "digitales_ausraeumen_selbststaendig", value: false },
+      version: 2, changed: "2026-07-13"
     },
     {
       id: "behandlungspflege_eigene", section: 6, audience: "kunde", type: "textarea",
       label: "Behandlungspflege: eigene, sonstige Angaben",
       help: "Möchten Sie zur Behandlungspflege noch etwas in eigenen Worten schreiben? Freiwillig. Sie können das Feld auch leer lassen und im Gespräch darüber reden.",
       sensitive: true,
-      showIf: { field: "einmalkatheter_selbststaendig", value: false },
-      version: 1, changed: "2026-07-13"
+      version: 2, changed: "2026-07-13"
     },
 
     /* ============================================================

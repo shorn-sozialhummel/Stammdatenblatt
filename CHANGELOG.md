@@ -3,6 +3,38 @@
 Alle nennenswerten Änderungen an diesem Projekt.
 Format lose nach „Keep a Changelog". Additiv — nichts wird gelöscht.
 
+## [0.6.1] — 2026-07-13 — Behandlungspflege: Beatmungsfeld + Kopplungen korrigiert
+
+Nacharbeit zu den beiden in 0.6.0 offen gelassenen Punkten.
+
+### Neu
+
+- `beatmung_vorhanden` (select: nein · nicht-invasiv (Maske) · invasiv
+  (Trachealkanüle)), `sensitive`, freiwillig. Steht **vor** dem Beatmungs-
+  Schalter und `beatmung_optionen`, immer sichtbar (kein `showIf`). Der Hilfetext
+  erklärt, dass Sauerstoffgabe und Hustenassistent keine Beatmung sind und dass
+  die Angabe die nötige Qualifikation der Assistenzkraft mitbestimmt.
+  `version: 1`, `changed: 2026-07-13`. `beatmung_optionen` bleibt unverändert.
+- `digitales_ausraeumen_selbststaendig` (Schalter „weitgehend selbstständig"),
+  passend zum Muster der anderen Positionen. `version: 1`, `changed: 2026-07-13`.
+
+### Geändert (Kopplung korrigiert)
+
+- `digitales_ausraeumen`: `showIf` nicht mehr an `einmalkatheter_selbststaendig`,
+  sondern an den eigenen Schalter `digitales_ausraeumen_selbststaendig`.
+  `version: 2`, `changed: 2026-07-13`.
+- `behandlungspflege_eigene`: `showIf` **ersatzlos entfernt** — der Block-Freitext
+  ist jetzt immer sichtbar. `version: 2`, `changed: 2026-07-13`.
+
+### Dokumentation
+
+- `ABGLEICH.md`: Nachtrag ergänzt — die Papiervorlage kennt bei „Beatmung" nur
+  Sauerstoff/Hustenassistent, kein eigenes Beatmungsfeld; das Webformular ergänzt
+  es bewusst; Empfehlung, die Papiervorlage nachzuziehen.
+
+`node check-fields.js` läuft fehlerfrei (148 Felder, 15 deprecated). Nur
+`fields.js`, `ABGLEICH.md` und `CHANGELOG.md` geändert; kein anderer Code.
+
 ## [0.6.0] — 2026-07-13 — Abschnitt 6, Teil 2: Behandlungspflege an die Vorlage angeglichen
 
 Grundlage: Stammdatenblatt Seite 6, Block „Behandlungspflege". Gleiches Muster
