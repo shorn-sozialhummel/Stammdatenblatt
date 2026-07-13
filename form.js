@@ -86,8 +86,14 @@
     var dep = FIELDS.filter(function (x) { return x.id === f.showIf.field; })[0];
     if (dep && !isVisible(dep)) return false;
     var cur = state.values[f.showIf.field];
+    // valueIn: sichtbar, wenn der aktuelle Wert (auch Mehrfachauswahl) einen der Werte enthält
+    if (Array.isArray(f.showIf.valueIn)) {
+      var arr = Array.isArray(cur) ? cur : (cur == null || cur === "" ? [] : [cur]);
+      return f.showIf.valueIn.some(function (v) { return arr.indexOf(v) !== -1; });
+    }
     var want = f.showIf.value;
     if (typeof want === "boolean") return asBool(cur) === want;
+    if (Array.isArray(cur)) return cur.indexOf(want) !== -1;
     return String(cur == null ? "" : cur) === String(want);
   }
 
@@ -243,15 +249,12 @@
   }
 
   function applyVisibility() {
-    var wraps = sectionsEl.querySelectorAll("[data-showif-field]");
+    var wraps = sectionsEl.querySelectorAll("[data-field-id]");
     Array.prototype.forEach.call(wraps, function (w) {
-      var f = w.getAttribute("data-showif-field");
-      var want = w.getAttribute("data-showif-value");
-      var cur = state.values[f];
-      var visible;
-      if (want === "true" || want === "false") visible = asBool(cur) === (want === "true");
-      else visible = String(cur == null ? "" : cur) === want;
-      w.hidden = !visible;
+      var id = w.getAttribute("data-field-id");
+      var f = FIELDS.filter(function (x) { return x.id === id; })[0];
+      if (!f || !f.showIf) return;
+      w.hidden = !isVisible(f);
     });
   }
 

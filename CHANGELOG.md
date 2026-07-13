@@ -3,6 +3,57 @@
 Alle nennenswerten Änderungen an diesem Projekt.
 Format lose nach „Keep a Changelog". Additiv — nichts wird gelöscht.
 
+## [0.7.0] — 2026-07-13 — Fehlende Felder ergänzt (ABGLEICH a): ÖPNV-Details + Kontaktpersonen
+
+Rein additiv. Kein bestehendes Feld inhaltlich verändert.
+
+### Renderer/Prüfer: neue `showIf`-Variante `valueIn` (additiv)
+
+- `showIf` unterstützt jetzt zusätzlich `{ field, valueIn: [<werte>] }` — sichtbar,
+  wenn der (auch Mehrfach-)Wert einen der genannten Werte enthält. Ergänzt in
+  `form.js` (`isVisible`; `applyVisibility` nutzt jetzt einheitlich `isVisible`),
+  `check-fields.js` (Validierung akzeptiert `value` **oder** `valueIn`) und im
+  Doku-Kopf von `fields.js`. Bestehende `showIf { field, value }` unverändert.
+
+### Abschnitt 4 — ÖPNV-Details (Vorlage W, Seite 2)
+
+- `oepnv_linie` (Freitext) und `oepnv_haltestelle` (Freitext), nur sichtbar, wenn
+  bei `oepnv` **Bus oder Bahn** gewählt ist (`showIf … valueIn: ["bus","bahn"]`).
+
+### Abschnitt 5 — Kontaktpersonen (Vorlage S, Seite 4)
+
+Ergänzt wurde jeweils nur, was in der Vorlage steht und bisher fehlte; alle Felder
+hängen am bestehenden „…_vorhanden"-Schalter des Blocks (`showIf`):
+
+- Angehörige: `angehoerige_adresse` (Adresse, falls abweichend).
+- Sonstige Betreuungsperson: `betreuungsperson_verhaeltnis`, `betreuungsperson_adresse`.
+- Gesetzlicher Betreuer: `betreuer_adresse`, `betreuer_nachweis`
+  (select: liegt vor · liegt nicht vor).
+- Hausarzt: `hausarzt_adresse`.
+- Pflegedienst: `pflegedienst_ansprechpartner`, `pflegedienst_ansprechpartner_rolle`
+  (multiselect: Geschäftsführer/in · Ansprechpartner/in), `pflegedienst_adresse`.
+
+Alle neuen Felder `version: 1`, `changed: 2026-07-13`, mit Hilfetext. Alle
+„…_vorhanden"-Schalter der Blöcke 2–8 waren bereits vorhanden; keiner musste
+ergänzt werden.
+
+### Bereits vorhanden — nichts ergänzt
+
+- Fachärzte (`fachaerzte_liste`, Freitext) und Sonstige Dienste
+  (`sonstige_dienste_beschreibung`, Freitext) decken die Vorlage bereits ab.
+
+### Nicht angefasst (bewusst)
+
+- `betreuer_bereiche` bleibt unverändert. **Hinweis:** seine Optionen weichen von
+  der Vorlage ab (Registry: Vermögenssorge / Behörden und Ämter /
+  Wohnungsangelegenheiten; Vorlage: Vertretung bei Behörden / Vermögensvorsorge /
+  Post- und Fernmeldeverkehr — siehe ABGLEICH c). Das ist eine Options-Änderung an
+  einem bestehenden Feld und wird erst auf ausdrückliche Ansage gemacht.
+- Interner BeWo-Block (kommt im nächsten Paket).
+- `pdf.js`, `index.html`, `styles.css` nicht angefasst.
+
+`node check-fields.js` läuft fehlerfrei (159 Felder, 15 deprecated).
+
 ## [0.6.1] — 2026-07-13 — Behandlungspflege: Beatmungsfeld + Kopplungen korrigiert
 
 Nacharbeit zu den beiden in 0.6.0 offen gelassenen Punkten.

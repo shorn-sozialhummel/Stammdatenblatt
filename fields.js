@@ -27,6 +27,8 @@
  *   sensitive  (Bool)    optional, Standard false.
  *   options    (Array)   nur bei select/radio/checkboxgroup/multiselect: [{value,label}]
  *   showIf     (Object)  optional: { field: "<id>", value: <wert> }
+ *                        oder { field: "<id>", valueIn: [<werte>] } — sichtbar,
+ *                        wenn der (auch Mehrfach-)Wert einen der Werte enthält.
  *   placeholder(String)  optional
  *   status     (String)  optional: "active" (Standard) oder "deprecated".
  *                        Ausgemusterte Felder bleiben erhalten, werden aber im
@@ -364,6 +366,20 @@
       version: 2, changed: "2026-07-13"
     },
     {
+      id: "oepnv_linie", section: 4, audience: "kunde", type: "text",
+      label: "Linie",
+      help: "Welche Bus- oder Bahnlinie hält in Ihrer Nähe? Freiwillig.",
+      showIf: { field: "oepnv", valueIn: ["bus", "bahn"] },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "oepnv_haltestelle", section: 4, audience: "kunde", type: "text",
+      label: "Name der Haltestelle",
+      help: "Wie heißt die nächste Haltestelle? Freiwillig.",
+      showIf: { field: "oepnv", valueIn: ["bus", "bahn"] },
+      version: 1, changed: "2026-07-13"
+    },
+    {
       id: "rueckzugsraum", section: 4, audience: "kunde", type: "select",
       label: "Gibt es einen Rückzugsraum für die Assistenzkraft?",
       help: "Hat die Assistenzkraft bei Ihnen einen Raum für Pausen? Freiwillig.",
@@ -402,6 +418,13 @@
       help: "Telefonnummer der Person. Freiwillig.",
       showIf: { field: "angehoerige_vorhanden", value: true }
     },
+    {
+      id: "angehoerige_adresse", section: 5, audience: "kunde", type: "text",
+      label: "Angehörige: Adresse (falls abweichend)",
+      help: "Nur ausfüllen, wenn die Person woanders wohnt als Sie. Freiwillig.",
+      showIf: { field: "angehoerige_vorhanden", value: true },
+      version: 1, changed: "2026-07-13"
+    },
 
     {
       id: "betreuungsperson_vorhanden", section: 5, audience: "kunde", type: "checkbox",
@@ -420,6 +443,20 @@
       help: "Telefonnummer dieser Person. Freiwillig.",
       showIf: { field: "betreuungsperson_vorhanden", value: true }
     },
+    {
+      id: "betreuungsperson_verhaeltnis", section: 5, audience: "kunde", type: "text",
+      label: "Betreuungsperson: Verhältnis zu Ihnen",
+      help: "In welchem Verhältnis steht die Person zu Ihnen? Zum Beispiel Nachbarin, Freund, Betreuer. Freiwillig.",
+      showIf: { field: "betreuungsperson_vorhanden", value: true },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "betreuungsperson_adresse", section: 5, audience: "kunde", type: "text",
+      label: "Betreuungsperson: Adresse (falls abweichend)",
+      help: "Nur ausfüllen, wenn die Person woanders wohnt als Sie. Freiwillig.",
+      showIf: { field: "betreuungsperson_vorhanden", value: true },
+      version: 1, changed: "2026-07-13"
+    },
 
     {
       id: "betreuer_vorhanden", section: 5, audience: "kunde", type: "checkbox",
@@ -437,6 +474,24 @@
       label: "Gesetzlicher Betreuer: Telefon",
       help: "Telefonnummer. Freiwillig.",
       showIf: { field: "betreuer_vorhanden", value: true }
+    },
+    {
+      id: "betreuer_adresse", section: 5, audience: "kunde", type: "text",
+      label: "Gesetzlicher Betreuer: Adresse (falls abweichend)",
+      help: "Nur ausfüllen, wenn die Betreuung woanders zu erreichen ist als Sie selbst. Freiwillig.",
+      showIf: { field: "betreuer_vorhanden", value: true },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "betreuer_nachweis", section: 5, audience: "kunde", type: "select",
+      label: "Nachweis der Betreuung / Bevollmächtigung",
+      help: "Gibt es einen Nachweis über die Betreuung, zum Beispiel einen Betreuerausweis? Freiwillig.",
+      showIf: { field: "betreuer_vorhanden", value: true },
+      options: [
+        { value: "liegt_vor", label: "liegt vor" },
+        { value: "liegt_nicht_vor", label: "liegt nicht vor" }
+      ],
+      version: 1, changed: "2026-07-13"
     },
     {
       id: "betreuer_bereiche", section: 5, audience: "kunde", type: "checkboxgroup",
@@ -469,6 +524,13 @@
       help: "Telefonnummer der Praxis. Freiwillig.",
       showIf: { field: "hausarzt_vorhanden", value: true }
     },
+    {
+      id: "hausarzt_adresse", section: 5, audience: "kunde", type: "text",
+      label: "Hausarzt: Adresse",
+      help: "Wo ist die Praxis? Freiwillig.",
+      showIf: { field: "hausarzt_vorhanden", value: true },
+      version: 1, changed: "2026-07-13"
+    },
 
     {
       id: "fachaerzte_vorhanden", section: 5, audience: "kunde", type: "checkbox",
@@ -498,6 +560,31 @@
       label: "Pflegedienst: Telefon",
       help: "Telefonnummer des Pflegedienstes. Freiwillig.",
       showIf: { field: "pflegedienst_vorhanden", value: true }
+    },
+    {
+      id: "pflegedienst_ansprechpartner", section: 5, audience: "kunde", type: "text",
+      label: "Pflegedienst: Ansprechpartner (Name, Vorname)",
+      help: "Wen kann man beim Pflegedienst ansprechen? Freiwillig.",
+      showIf: { field: "pflegedienst_vorhanden", value: true },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "pflegedienst_ansprechpartner_rolle", section: 5, audience: "kunde", type: "multiselect",
+      label: "Pflegedienst: Rolle der Ansprechperson",
+      help: "Ist die genannte Person Geschäftsführung oder Ansprechpartner? Sie können auch beides ankreuzen. Freiwillig.",
+      showIf: { field: "pflegedienst_vorhanden", value: true },
+      options: [
+        { value: "geschaeftsfuehrer", label: "Geschäftsführer/in" },
+        { value: "ansprechpartner", label: "Ansprechpartner/in" }
+      ],
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "pflegedienst_adresse", section: 5, audience: "kunde", type: "text",
+      label: "Pflegedienst: Adresse",
+      help: "Wo sitzt der Pflegedienst? Freiwillig.",
+      showIf: { field: "pflegedienst_vorhanden", value: true },
+      version: 1, changed: "2026-07-13"
     },
 
     {

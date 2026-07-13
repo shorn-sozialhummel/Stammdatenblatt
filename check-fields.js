@@ -131,11 +131,11 @@ FIELDS.forEach(function (f, i) {
   // showIf verweist auf existierendes Feld
   if (typeof f.showIf !== "undefined") {
     if (!f.showIf || typeof f.showIf.field !== "string") {
-      err(f.id, "showIf braucht ein Feld { field: '<id>', value: <wert> }.");
+      err(f.id, "showIf braucht ein Feld { field: '<id>', value: <wert> } oder { field, valueIn: [..] }.");
     } else if (!idSet[f.showIf.field]) {
       err(f.id, "showIf verweist auf unbekanntes Feld '" + f.showIf.field + "'.");
-    } else if (typeof f.showIf.value === "undefined") {
-      err(f.id, "showIf braucht einen value.");
+    } else if (typeof f.showIf.value === "undefined" && !Array.isArray(f.showIf.valueIn)) {
+      err(f.id, "showIf braucht einen value oder valueIn (Array).");
     }
   }
 
