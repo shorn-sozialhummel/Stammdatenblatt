@@ -3,6 +3,50 @@
 Alle nennenswerten Änderungen an diesem Projekt.
 Format lose nach „Keep a Changelog". Additiv — nichts wird gelöscht.
 
+## [0.11.0] — 2026-07-14 — Abschlussseite und Datenschutzhinweis
+
+### Abschlussseite (`index.html`, `styles.css`)
+
+- Freundliche Überschrift „Geschafft — vielen Dank!" in einfacher Sprache.
+- Zwei große Knöpfe (`btn-big`): „PDF herunterladen" und „Daten als JSON
+  speichern", jeder mit sichtbarem Hilfetext.
+- **JSON-Hilfetext** neu, wie gewünscht: „Die Datei sieht aus wie Technik-Kram,
+  ist aber nützlich: Die Sozialhummel kann Ihre Angaben daraus ohne Abtippen
+  übernehmen. Wer sie nicht braucht, lässt sie einfach weg."
+- **„Wie es weitergeht"** — jetzt dauerhaft sichtbar (vorher erst nach Download),
+  klar nummeriert, vier **gleichwertige** Wege:
+  1. ausdrucken und mitbringen,
+  2. per Post (mit voller Anschrift: Sozialhummel gGmbH, Mozartstraße 10,
+     53819 Neunkirchen-Seelscheid),
+  3. per E-Mail an info@sozialhummel.de — mit ehrlichem, hervorgehobenem Hinweis,
+     dass E-Mail kein sicherer Weg ist und Gesundheitsdaten dabei unverschlüsselt
+     unterwegs sind,
+  4. anrufen unter 0228 – 18 05 90 92 und Termin vereinbaren.
+- Eigener Block „Zwischenspeicher löschen" mit Knopf direkt daneben — wichtig bei
+  geteilten/öffentlichen Geräten. Der Löschknopf ist jetzt immer sichtbar.
+
+### Datenschutzhinweis als eigene Seite (`datenschutz.html`)
+
+- Neue, verlinkte Seite (statt Dialog). Kurz, einfache Sprache, deutlich als
+  **Entwurf** gekennzeichnet.
+- Kernaussagen: Das Formular überträgt keine Daten; alles bleibt im Browser auf
+  dem Gerät; erst wenn der Kunde das PDF selbst verschickt, gehen die Daten an die
+  Sozialhummel; der Zwischenspeicher liegt auf dem Gerät und ist jederzeit
+  löschbar; was mit dem PDF passiert, entscheidet der Kunde.
+- **Impressum** aus der Fußzeile der Vorlagen übernommen (Anschrift, Web/Mail/Tel,
+  Geschäftsführung Silke Horn / stv. Axel Dewald, IK-Nummer 462534065, HRB 17329).
+- Links aus Kopf- und Fußzeile des Formulars zeigen auf `datenschutz.html`
+  (öffnet in neuem Tab, mit Screenreader-Hinweis); der bisherige Dialog samt
+  zugehörigem JS wurde entfernt (`index.html`, `form.js`).
+
+### Test
+
+- Browser: Abschlussseite und `datenschutz.html` geprüft — alle Inhalte vorhanden,
+  Links korrekt; **axe-core: 0 Verstöße** auf beiden; keine JS-Fehler (nur die
+  erwarteten `assets/logo.png`-404, sauber abgefangen).
+- `fields.js`, `check-fields.js`, `pdf.js` unverändert; `node check-fields.js`
+  weiter fehlerfrei (171 Felder).
+
 ## [0.10.0] — 2026-07-14 — Barrierefreiheit geprüft und nachgebessert
 
 Prüfung mit echten Browser-Tests (Chromium) und **axe-core 4.10.2**.

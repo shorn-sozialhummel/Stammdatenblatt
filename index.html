@@ -30,7 +30,7 @@
       <strong>Ihre Angaben werden nur auf diesem Gerät gespeichert und nicht an
       uns übertragen.</strong> Sie entscheiden am Ende selbst, wie Sie uns die
       Daten geben.
-      <button type="button" class="linkbtn" id="btn-datenschutz">Mehr dazu (Datenschutz)</button>
+      <a class="linkbtn" href="datenschutz.html" target="_blank" rel="noopener">Mehr dazu (Datenschutz)<span class="visually-hidden"> (öffnet in neuem Tab)</span></a>
     </p>
     <p class="storage-controls">
       <button type="button" class="btn btn-quiet" id="btn-clear-storage">
@@ -71,49 +71,75 @@
 
     <!-- ABSCHLUSS-SEITE -->
     <section id="done-screen" class="done-screen" hidden aria-labelledby="done-title" tabindex="-1">
-      <h2 id="done-title">Fast geschafft — Ihre Angaben herunterladen</h2>
+      <h2 id="done-title">Geschafft — vielen Dank!</h2>
       <p>
-        Klicken Sie auf die Knöpfe, um Ihre Angaben zu speichern. Beides bleibt
-        auf Ihrem Gerät — es wird nichts an uns geschickt.
+        Sie haben alle Angaben gemacht, die Sie machen wollten. Speichern Sie sie
+        jetzt auf Ihrem Gerät. Es wird nichts an uns geschickt — Sie entscheiden
+        gleich selbst, wie Sie uns die Angaben geben.
       </p>
 
       <div class="download-buttons">
         <div class="download-item">
-          <button type="button" class="btn btn-primary" id="btn-pdf">PDF herunterladen</button>
+          <button type="button" class="btn btn-primary btn-big" id="btn-pdf">PDF herunterladen</button>
           <span class="help">
-            Erstellt ein PDF mit Ihren Angaben. Das können Sie ausdrucken oder
-            zum Gespräch mitbringen.
+            Erstellt ein PDF mit Ihren Angaben. Das können Sie ausdrucken,
+            mitbringen oder verschicken.
           </span>
         </div>
         <div class="download-item">
-          <button type="button" class="btn btn-secondary" id="btn-json">Daten als JSON herunterladen</button>
+          <button type="button" class="btn btn-secondary btn-big" id="btn-json">Daten als JSON speichern</button>
           <span class="help">
-            Eine Datei für unsere Mitarbeitenden, damit sie Ihre Angaben nicht
-            abtippen müssen. Für Sie selbst ist das PDF das Wichtigere.
+            Die Datei sieht aus wie Technik-Kram, ist aber nützlich: Die Sozialhummel
+            kann Ihre Angaben daraus ohne Abtippen übernehmen. Wer sie nicht braucht,
+            lässt sie einfach weg.
           </span>
         </div>
       </div>
 
-      <div class="notice notice-after" id="after-download" hidden>
-        <h3>So geht es weiter</h3>
-        <p>Sie können uns Ihre Angaben auf mehreren Wegen geben — Sie entscheiden:</p>
-        <ul>
-          <li>Das <strong>PDF ausdrucken</strong> und zum Beratungsgespräch mitbringen.</li>
-          <li>Das <strong>PDF per Post</strong> an uns schicken.</li>
-          <li>Das <strong>PDF per E-Mail</strong> an
-            <a href="mailto:info@sozialhummel.de">info@sozialhummel.de</a> schicken.
-            <em>Hinweis:</em> E-Mail ist kein sicherer Weg. Sie entscheiden selbst,
-            ob Sie ihn nutzen möchten.</li>
-          <li><strong>Telefonisch einen Termin</strong> vereinbaren und die Angaben
-            im Gespräch besprechen.</li>
-        </ul>
+      <div class="notice notice-after">
+        <h3>Wie es weitergeht</h3>
+        <p>Sie entscheiden, wie Sie uns Ihre Angaben geben. Alle vier Wege sind gleich gut:</p>
+        <ol class="ways">
+          <li>
+            <strong>Ausdrucken und mitbringen.</strong> Drucken Sie das PDF aus und
+            bringen Sie es zum Beratungsgespräch mit.
+          </li>
+          <li>
+            <strong>Per Post schicken</strong> an:<br>
+            Sozialhummel gGmbH<br>
+            Mozartstraße 10<br>
+            53819 Neunkirchen-Seelscheid
+          </li>
+          <li>
+            <strong>Per E-Mail</strong> an
+            <a href="mailto:info@sozialhummel.de">info@sozialhummel.de</a> schicken.<br>
+            <span class="warn">
+              <strong>Ehrlich gesagt:</strong> E-Mail ist kein sicherer Weg. Ihre
+              Gesundheitsdaten sind dabei unverschlüsselt unterwegs. Wenn Sie das
+              nicht möchten, wählen Sie einen anderen Weg.
+            </span>
+          </li>
+          <li>
+            <strong>Anrufen und Termin vereinbaren.</strong> Rufen Sie uns an unter
+            <a href="tel:+4922818059092">0228 – 18 05 90 92</a> und besprechen Sie
+            Ihre Angaben im Gespräch.
+          </li>
+        </ol>
+      </div>
+
+      <div class="notice notice-clear">
         <p class="reminder">
-          <strong>Tipp:</strong> Wenn Sie ein geteiltes oder öffentliches Gerät
-          benutzen, löschen Sie jetzt den Zwischenspeicher.
-          <button type="button" class="btn btn-quiet" id="btn-clear-storage-2">
-            Alle Daten von diesem Gerät löschen
-          </button>
+          <strong>Nutzen Sie ein geteiltes oder öffentliches Gerät?</strong>
+          Dann löschen Sie jetzt den Zwischenspeicher, damit niemand sonst Ihre
+          Angaben sehen kann.
         </p>
+        <button type="button" class="btn btn-quiet" id="btn-clear-storage-2">
+          Alle Daten von diesem Gerät löschen
+        </button>
+        <span class="help">
+          Entfernt Ihre Eingaben aus dem Zwischenspeicher dieses Geräts. Ein bereits
+          heruntergeladenes PDF oder JSON bleibt erhalten.
+        </span>
       </div>
 
       <div class="form-nav">
@@ -124,34 +150,9 @@
   </main>
 
   <footer class="site-footer" role="contentinfo">
-    <p>Sozialhummel gGmbH · <button type="button" class="linkbtn" id="btn-datenschutz-2">Datenschutzhinweis (Entwurf)</button></p>
+    <p>Sozialhummel gGmbH · <a class="linkbtn" href="datenschutz.html" target="_blank" rel="noopener">Datenschutzhinweis (Entwurf)<span class="visually-hidden"> (öffnet in neuem Tab)</span></a></p>
     <p class="small">Dieses Formular läuft vollständig in Ihrem Browser. Es überträgt keine Daten.</p>
   </footer>
-
-  <!-- Datenschutz-Dialog -->
-  <dialog id="datenschutz-dialog" aria-labelledby="ds-title">
-    <div class="dialog-inner">
-      <h2 id="ds-title">Datenschutzhinweis <span class="badge">Entwurf</span></h2>
-      <p class="badge-note">
-        Dieser Text ist ein <strong>Entwurf</strong>. Die Sozialhummel gGmbH lässt
-        ihn noch rechtlich prüfen.
-      </p>
-      <ul>
-        <li><strong>Das Formular überträgt keine Daten.</strong> Alle Eingaben
-          bleiben in Ihrem Browser auf diesem Gerät.</li>
-        <li><strong>Zwischenspeicher.</strong> Damit Sie nicht von vorn anfangen
-          müssen, wird Ihr Stand auf diesem Gerät gespeichert (im sogenannten
-          „localStorage" des Browsers). Sie können ihn jederzeit mit dem Knopf
-          „Alle Daten von diesem Gerät löschen" entfernen.</li>
-        <li><strong>PDF und JSON.</strong> Am Ende erzeugt das Formular auf Ihrem
-          Gerät ein PDF und eine JSON-Datei. Was Sie damit machen, entscheiden
-          Sie selbst.</li>
-        <li><strong>Keine Einwilligung nötig.</strong> Weil wir keine Daten
-          verarbeiten, gibt es hier keine Einwilligungserklärung.</li>
-      </ul>
-      <button type="button" class="btn btn-primary" id="btn-ds-close">Schließen</button>
-    </div>
-  </dialog>
 
   <!-- Bibliotheken lokal (kein CDN) -->
   <script src="fields.js"></script>

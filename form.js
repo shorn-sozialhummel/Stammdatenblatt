@@ -428,7 +428,6 @@
     try {
       var data = collectData();
       window.SozialhummelPDF.generatePDF(data);
-      $("after-download").hidden = false;
       announce("Das PDF wurde erstellt und wird heruntergeladen. Denken Sie danach an das Löschen des Zwischenspeichers, wenn Sie ein geteiltes Gerät nutzen.");
     } catch (e) {
       errorEl.hidden = false;
@@ -439,7 +438,6 @@
     try {
       var data = collectData();
       window.SozialhummelPDF.generateJSON(data);
-      $("after-download").hidden = false;
       announce("Die JSON-Datei wurde erstellt und wird heruntergeladen.");
     } catch (e) {
       errorEl.hidden = false;
@@ -447,34 +445,22 @@
     }
   }
 
-  // Datenschutz-Dialog
-  function openDS() {
-    var dlg = $("datenschutz-dialog");
-    if (typeof dlg.showModal === "function") dlg.showModal();
-    else dlg.setAttribute("open", "open");
-  }
-  function closeDS() {
-    var dlg = $("datenschutz-dialog");
-    if (typeof dlg.close === "function") dlg.close();
-    else dlg.removeAttribute("open");
-  }
+  // (Datenschutz ist jetzt eine eigene Seite datenschutz.html — kein Dialog mehr.)
 
   // ============================================================
   // Init
   // ============================================================
+  function bind(id, ev, fn) { var e = $(id); if (e) e.addEventListener(ev, fn); }
   function init() {
     load();
-    $("btn-next").addEventListener("click", onNext);
-    $("btn-skip").addEventListener("click", onSkip);
-    $("btn-back").addEventListener("click", onBack);
-    $("btn-back-from-done").addEventListener("click", function () { showForm(); goTo(SECTION_COUNT); });
-    $("btn-pdf").addEventListener("click", onDownloadPDF);
-    $("btn-json").addEventListener("click", onDownloadJSON);
-    $("btn-clear-storage").addEventListener("click", clearStorage);
-    $("btn-clear-storage-2").addEventListener("click", clearStorage);
-    $("btn-datenschutz").addEventListener("click", openDS);
-    $("btn-datenschutz-2").addEventListener("click", openDS);
-    $("btn-ds-close").addEventListener("click", closeDS);
+    bind("btn-next", "click", onNext);
+    bind("btn-skip", "click", onSkip);
+    bind("btn-back", "click", onBack);
+    bind("btn-back-from-done", "click", function () { showForm(); goTo(SECTION_COUNT); });
+    bind("btn-pdf", "click", onDownloadPDF);
+    bind("btn-json", "click", onDownloadJSON);
+    bind("btn-clear-storage", "click", clearStorage);
+    bind("btn-clear-storage-2", "click", clearStorage);
 
     showForm();
     render();
