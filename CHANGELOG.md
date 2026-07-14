@@ -3,6 +3,23 @@
 Alle nennenswerten Änderungen an diesem Projekt.
 Format lose nach „Keep a Changelog". Additiv — nichts wird gelöscht.
 
+## [1.0.1] — 2026-07-14 — Logo-Feinschliff und Auslieferungs-Nachtrag
+
+- **Neues Logo** (`assets/logo.png`, 800 × 585, transparent, eng zugeschnitten,
+  Querformat) eingebunden. Es erscheint größer und ohne weißes Kästchen.
+- **Anzeigegrößen angepasst:** Formular `.logo max-height` 56 → **64 px**
+  (`styles.css`); PDF-Kopfzeile `fit: [120, 48]` → **[150, 64]** (`pdf.js`,
+  Logospalte auf 160 pt verbreitert).
+- **`assets/LOGO-HIER-ABLEGEN.md`:** Abschnitt „Optimale Logodatei" ergänzt
+  (transparent, eng beschnitten, breiter als hoch, mind. 400 px breit) — damit ein
+  späterer Austausch nicht wieder zum Quadrat mit weißem Rand führt.
+- **`AUSLIEFERUNG.md`:** zweiter Upload-Weg über den **STRATO-Datei-Manager**
+  ergänzt; Prüfliste zum Abhaken erweitert (Logo im Formular, alle 8 Abschnitte,
+  **PDF enthält das Logo**, HTTPS-Weiterleitung, Zwischenspeicher-Löschknopf).
+- **`dist/` neu gebaut** mit dem neuen Logo und den angepassten `pdf.js`/`styles.css`.
+- Geprüft: Logo lädt im Formular (88 × 64 px) und im PDF (eingebettet, `fit 150 × 64`);
+  `node check-fields.js` unverändert fehlerfrei (171 Felder).
+
 ## [1.0.0] — 2026-07-14 — Abschlusskontrolle und Auslieferung
 
 Erste ausgelieferte Version.

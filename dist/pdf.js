@@ -118,8 +118,8 @@
       ]
     };
     var left = LOGO_DATAURL
-      ? { image: LOGO_DATAURL, fit: [120, 48], width: 130 }
-      : { text: "", width: 130 };
+      ? { image: LOGO_DATAURL, fit: [150, 64], width: 160 }
+      : { text: "", width: 160 };
     return { columns: [left, headText], margin: [40, 24, 40, 0] };
   }
 

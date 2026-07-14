@@ -18,6 +18,29 @@ Sobald die Datei vorhanden ist, erscheint das Logo automatisch:
 Fehlt die Datei, funktioniert alles trotzdem — dann zeigt die Kopfzeile nur den
 Textteil („Sozialhummel gGmbH …"), ohne Platzhalter.
 
+## Optimale Logodatei
+
+Damit das Logo gut aussieht und beim Austausch nicht wieder zu klein oder mit
+weißem Rand erscheint, sollte die Datei so aussehen:
+
+- **Transparenter Hintergrund** (PNG mit Alphakanal). So entsteht auf dem grauen
+  Formular-Kopf **kein weißes Kästchen** um das Motiv.
+- **Eng zugeschnitten** — kein großer leerer Rand um die Grafik. Sonst wirkt das
+  Logo klein, weil die Skalierung den leeren Rand mitzählt.
+- **Breiter als hoch** (Querformat). Kopf- und Fußzeile sind breit; ein
+  querformatiges Logo nutzt den Platz und bleibt gut lesbar. Ein Quadrat wird
+  dagegen klein gerechnet.
+- **Mindestens 400 px breit** (gern mehr, z. B. 800 px), damit es auch bei
+  höherer Bildschirm-Auflösung und im PDF scharf bleibt.
+- Dateiname genau `logo.png`.
+
+Die aktuell hinterlegte Datei erfüllt das (ca. 800 × 585 px, transparent,
+zugeschnitten). Wird sie ersetzt, bitte an diesen Vorgaben orientieren.
+
+Die Anzeigegröße ist im Code hinterlegt und muss normalerweise **nicht** angepasst
+werden: im Formular über `.logo { max-height: 64px }` in `styles.css`, im PDF über
+`fit: [150, 64]` in `pdf.js`.
+
 ## Hinweis zur PDF-Kopfzeile
 
 Damit das Logo **im PDF** erscheint, muss das Formular über einen Webserver
