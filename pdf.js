@@ -1,8 +1,9 @@
 /* pdf.js — PDF- und JSON-Erzeugung im Browser (pdfmake)
  * =====================================================
- * KEIN Backend, KEIN fetch. Alles entsteht lokal im Browser.
- * Liest Labels/Struktur aus window.FIELDS und formatiert die vom
- * Formular übergebenen Werte.
+ * KEIN Backend, KEIN fetch an einen Server. Alles entsteht lokal im Browser.
+ * Liest Labels/Struktur aus window.FIELDS und formatiert die vom Formular
+ * übergebenen Werte. Das PDF orientiert sich am Layout der Papiervorlagen
+ * (Kopf- und Fußzeile der Sozialhummel).
  */
 (function () {
   "use strict";
@@ -19,21 +20,48 @@
     8: "Abschluss"
   };
 
+  // Logo wird — wenn vorhanden — aus assets/logo.png geladen.
+  // Fehlt die Datei (oder lässt sie sich nicht als Data-URL lesen, z. B. unter
+  // file://), bleibt LOGO_DATAURL null und die Kopfzeile zeigt nur den Text.
+  var LOGO_DATAURL = null;
+  function preloadLogo() {
+    try {
+      var img = new Image();
+      img.onload = function () {
+        try {
+          var c = document.createElement("canvas");
+          c.width = img.naturalWidth || img.width;
+          c.height = img.naturalHeight || img.height;
+          c.getContext("2d").drawImage(img, 0, 0);
+          LOGO_DATAURL = c.toDataURL("image/png");
+        } catch (e) { LOGO_DATAURL = null; }
+      };
+      img.onerror = function () { LOGO_DATAURL = null; };
+      img.src = "assets/logo.png";
+    } catch (e) { LOGO_DATAURL = null; }
+  }
+
   function fieldById(id) {
     for (var i = 0; i < FIELDS.length; i++) if (FIELDS[i].id === id) return FIELDS[i];
     return null;
   }
+  function indexOf(id) { for (var i = 0; i < FIELDS.length; i++) if (FIELDS[i].id === id) return i; return 9999; }
 
-  // Wert lesbar machen (Optionen -> Labels, Boolean -> Ja)
+  function isListType(f) { return f.type === "checkboxgroup" || f.type === "multiselect"; }
+
+  // Array der lesbaren Labels (für Listen-Darstellung)
+  function valueLabels(f, v) {
+    var arr = Array.isArray(v) ? v : [];
+    return arr.map(function (val) {
+      var o = (f.options || []).filter(function (o) { return String(o.value) === String(val); })[0];
+      return o ? o.label : String(val);
+    });
+  }
+
+  // Wert lesbar machen (Optionen -> Labels, Boolean -> Ja) — für JSON/Einzeltext
   function readable(f, v) {
     if (f.type === "checkbox") return v === true ? "Ja" : "Nein";
-    if (f.type === "checkboxgroup" || f.type === "multiselect") {
-      var arr = Array.isArray(v) ? v : [];
-      return arr.map(function (val) {
-        var o = (f.options || []).filter(function (o) { return String(o.value) === String(val); })[0];
-        return o ? o.label : val;
-      }).join(", ");
-    }
+    if (isListType(f)) return valueLabels(f, v).join(", ");
     if (f.type === "select") {
       var opt = (f.options || []).filter(function (o) { return String(o.value) === String(v); })[0];
       return opt ? opt.label : String(v);
@@ -49,18 +77,18 @@
       if (!f || f.audience !== "kunde") return;
       var sec = f.section;
       (groups[sec] = groups[sec] || []).push({
-        id: id, label: f.label, wert: data[id], lesbar: readable(f, data[id])
+        id: id,
+        label: f.label,
+        wert: data[id],
+        lesbar: readable(f, data[id]),
+        listItems: isListType(f) ? valueLabels(f, data[id]) : null
       });
     });
-    // Reihenfolge innerhalb des Abschnitts wie in der Registry
     Object.keys(groups).forEach(function (sec) {
-      groups[sec].sort(function (a, b) {
-        return indexOf(a.id) - indexOf(b.id);
-      });
+      groups[sec].sort(function (a, b) { return indexOf(a.id) - indexOf(b.id); });
     });
     return groups;
   }
-  function indexOf(id) { for (var i = 0; i < FIELDS.length; i++) if (FIELDS[i].id === id) return i; return 9999; }
 
   function nowStamp() {
     var d = new Date();
@@ -78,6 +106,52 @@
   }
 
   // ------------------------------------------------------------
+  // Kopf- und Fußzeile (auf jeder Seite) — Layout wie die Papiervorlage
+  // ------------------------------------------------------------
+  function pageHeader() {
+    var headText = {
+      width: "*",
+      alignment: "right",
+      stack: [
+        { text: "Sozialhummel gGmbH", bold: true, fontSize: 12 },
+        { text: "Hilfen für sozial benachteiligte Menschen und Menschen mit Behinderung", fontSize: 8, color: "#333333" }
+      ]
+    };
+    var left = LOGO_DATAURL
+      ? { image: LOGO_DATAURL, fit: [120, 48], width: 130 }
+      : { text: "", width: 130 };
+    return { columns: [left, headText], margin: [40, 24, 40, 0] };
+  }
+
+  function pageFooter(currentPage, pageCount) {
+    var col = { fontSize: 7, color: "#333333" };
+    return {
+      margin: [40, 8, 40, 0],
+      stack: [
+        {
+          columns: [
+            { width: "34%", stack: [
+              "Sozialhummel gGmbH", "Mozartstraße 10", "53819 Neunkirchen-Seelscheid"
+            ], fontSize: 7, color: "#333333" },
+            { width: "33%", alignment: "center", fontSize: 7, color: "#333333", stack: [
+              { text: "www.sozialhummel.de", link: "https://www.sozialhummel.de", color: "#0b5d3b" },
+              "info@sozialhummel.de",
+              "Tel: 0228 – 18 05 90 92"
+            ] },
+            { width: "33%", alignment: "right", fontSize: 7, color: "#333333", stack: [
+              "Geschäftsführung: Silke Horn",
+              "stv. Geschäftsführung: Axel Dewald",
+              "IK-Nummer: 462534065",
+              "HRB: 17329"
+            ] }
+          ]
+        },
+        { text: "Seite " + currentPage + " von " + pageCount, alignment: "right", fontSize: 7, color: "#333333", margin: [0, 4, 0, 0] }
+      ]
+    };
+  }
+
+  // ------------------------------------------------------------
   // PDF
   // ------------------------------------------------------------
   function buildDocDefinition(data) {
@@ -85,68 +159,57 @@
     var stamp = nowStamp();
     var content = [];
 
-    content.push({ text: "Sozialhummel gGmbH", style: "org" });
-    content.push({ text: "Stammdatenblatt und Wünsche", style: "title" });
-    content.push({ text: "Erstellt am " + stamp.human + " — vom Kunden selbst ausgefüllt", style: "meta" });
-    content.push({ text: " ", margin: [0, 4] });
+    content.push({ text: "Stammdatenblatt und Wünsche des Kunden", style: "title" });
+    content.push({ text: "Erstellt am " + stamp.human + " — vom Kunden selbst ausgefüllt", style: "meta", margin: [0, 0, 0, 10] });
 
+    var hadContent = false;
     for (var sec = 1; sec <= 8; sec++) {
       var items = groups[sec];
       if (!items || !items.length) continue; // leere Abschnitte weglassen
-      content.push({ text: SECTION_TITLES[sec], style: "section" });
+      hadContent = true;
+      content.push({ text: sec + ". " + SECTION_TITLES[sec], style: "section" });
       var rows = items.map(function (it) {
-        return [
-          { text: it.label, style: "label" },
-          { text: it.lesbar, style: "value" }
-        ];
+        var valueCell;
+        if (it.listItems && it.listItems.length) {
+          valueCell = { ul: it.listItems, style: "value" };
+        } else {
+          valueCell = { text: it.lesbar, style: "value" };
+        }
+        return [{ text: it.label, style: "label" }, valueCell];
       });
       content.push({
-        table: { widths: ["40%", "60%"], body: rows },
+        table: { widths: ["35%", "65%"], body: rows, dontBreakRows: true },
         layout: {
           hLineWidth: function () { return 0.5; },
           vLineWidth: function () { return 0; },
           hLineColor: function () { return "#cccccc"; },
           paddingTop: function () { return 4; },
-          paddingBottom: function () { return 4; }
+          paddingBottom: function () { return 4; },
+          paddingLeft: function () { return 0; },
+          paddingRight: function () { return 6; }
         },
-        margin: [0, 0, 0, 12]
+        margin: [0, 0, 0, 14]
       });
     }
 
-    if (content.length <= 4) {
+    if (!hadContent) {
       content.push({ text: "Es wurden keine Angaben gemacht.", style: "value" });
     }
 
     return {
-      info: { title: "Stammdatenblatt und Wünsche — Sozialhummel gGmbH" },
+      info: { title: "Stammdatenblatt und Wünsche des Kunden — Sozialhummel gGmbH" },
       pageSize: "A4",
-      pageMargins: [40, 60, 40, 60],
-      header: function (currentPage) {
-        return currentPage === 1 ? null : {
-          text: "Sozialhummel gGmbH — Stammdatenblatt und Wünsche",
-          style: "runningHead", margin: [40, 20, 40, 0]
-        };
-      },
-      footer: function (currentPage, pageCount) {
-        return {
-          columns: [
-            { text: "Sozialhummel gGmbH", style: "runningFoot" },
-            { text: "Seite " + currentPage + " von " + pageCount, style: "runningFoot", alignment: "right" }
-          ],
-          margin: [40, 10, 40, 0]
-        };
-      },
+      pageMargins: [40, 90, 40, 96],
+      header: function () { return pageHeader(); },
+      footer: function (currentPage, pageCount) { return pageFooter(currentPage, pageCount); },
       content: content,
-      defaultStyle: { font: "Roboto", fontSize: 11, color: "#14171a" },
+      defaultStyle: { font: "Roboto", fontSize: 11, color: "#14171a", lineHeight: 1.15 },
       styles: {
-        org: { fontSize: 12, bold: true, color: "#0b5d3b" },
-        title: { fontSize: 20, bold: true, margin: [0, 2, 0, 2] },
+        title: { fontSize: 18, bold: true, color: "#14171a", margin: [0, 0, 0, 2] },
         meta: { fontSize: 9, color: "#4a5158" },
-        section: { fontSize: 14, bold: true, color: "#0b5d3b", margin: [0, 10, 0, 6] },
+        section: { fontSize: 13, bold: true, color: "#0b5d3b", margin: [0, 8, 0, 6] },
         label: { bold: true, fontSize: 10 },
-        value: { fontSize: 11 },
-        runningHead: { fontSize: 8, color: "#4a5158" },
-        runningFoot: { fontSize: 8, color: "#4a5158" }
+        value: { fontSize: 11 }
       }
     };
   }
@@ -171,7 +234,7 @@
       });
     }
     return {
-      formular: "Sozialhummel — Stammdatenblatt und Wünsche",
+      formular: "Sozialhummel — Stammdatenblatt und Wünsche des Kunden",
       version: 1,
       hinweis: "Vom Kunden selbst im Browser erstellt. Keine Serverübertragung.",
       erstellt_am: stamp.iso,
@@ -191,6 +254,15 @@
     a.click();
     document.body.removeChild(a);
     setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+
+  // Logo möglichst früh vorladen, damit es beim Download bereitsteht.
+  if (typeof document !== "undefined") {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", preloadLogo);
+    } else {
+      preloadLogo();
+    }
   }
 
   window.SozialhummelPDF = {

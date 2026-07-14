@@ -3,6 +3,48 @@
 Alle nennenswerten Änderungen an diesem Projekt.
 Format lose nach „Keep a Changelog". Additiv — nichts wird gelöscht.
 
+## [0.9.0] — 2026-07-14 — PDF im Layout der Papiervorlagen
+
+Das herunterladbare PDF orientiert sich jetzt am Aussehen der Papiervorlagen,
+damit die Sozialhummel es ohne Umgewöhnung lesen kann.
+
+### PDF (`pdf.js`)
+
+- **Kopfzeile auf jeder Seite:** links Platz für das Logo (siehe unten), rechts
+  „Sozialhummel gGmbH" (fett) und darunter kleiner „Hilfen für sozial
+  benachteiligte Menschen und Menschen mit Behinderung".
+- **Fußzeile auf jeder Seite, dreispaltig** wie in der Vorlage: links Anschrift
+  (Mozartstraße 10 · 53819 Neunkirchen-Seelscheid), Mitte www.sozialhummel.de
+  (verlinkt) / info@sozialhummel.de / Tel: 0228 – 18 05 90 92, rechts
+  Geschäftsführung Silke Horn / stv. Axel Dewald / IK-Nummer 462534065 /
+  HRB 17329; darunter rechts „Seite X von Y".
+- **Titelzeile** „Stammdatenblatt und Wünsche des Kunden" + Erstellungsdatum.
+- Abschnitte 1–8 mit nummerierter Überschrift; leere Abschnitte/Felder werden
+  weggelassen (wie bisher).
+- **Multiselect- und Mehrfachauswahl-Werte als Aufzählungsliste** (`ul`) statt
+  Komma-Fließtext.
+- Lange Freitexte brechen sauber um (Tabellenspalten 35 % / 65 %,
+  `dontBreakRows`), kein Abschneiden. Seitenränder für Kopf-/Fußzeile vergrößert.
+
+### Logo (optional, ohne Platzhalter)
+
+- Neuer Ordner `assets/` mit `LOGO-HIER-ABLEGEN.md`. Wird dort `assets/logo.png`
+  abgelegt, erscheint das Logo automatisch oben links im Formular
+  (`index.html`) und in der PDF-Kopfzeile (`pdf.js`).
+- Fehlt die Datei, kommt alles sauber ohne Logo aus — **kein Emoji, kein
+  Platzhalterbild**, nur der Textteil. Das bisherige Emoji im Header wurde
+  entfernt (`index.html`, `styles.css` angepasst).
+- Das PDF lädt das Logo per Canvas als Data-URL. Unter `file://` kann der
+  Browser es aus Sicherheitsgründen nicht ins PDF einbetten (dann PDF ohne
+  Logo); über Webserver/Strato funktioniert es. Das Formular selbst zeigt das
+  Logo in beiden Fällen.
+
+### Test
+
+- Vollständig ausgefülltes Beispiel (117 Kundenfelder): erzeugt ein lesbares PDF
+  über **9 Seiten**; Multiselect als Liste, Freitexte umgebrochen, Kopf-/Fußzeile
+  auf jeder Seite. `node check-fields.js` unverändert fehlerfrei (171 Felder).
+
 ## [0.8.0] — 2026-07-13 — Betreuer-Zuständigkeiten korrigiert + interner BeWo-Block
 
 ### Geändert (mit ausdrücklicher Freigabe — Options-Korrektur)

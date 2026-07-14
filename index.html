@@ -13,8 +13,10 @@
 
   <header class="site-header" role="banner">
     <div class="header-inner">
-      <!-- Platzhalter-Logo. Bitte durch das echte Sozialhummel-Logo (SVG/PNG in vendor/ oder assets/) ersetzen. -->
-      <span class="logo" aria-hidden="true">🐝</span>
+      <!-- Logo aus assets/logo.png, falls vorhanden. Fehlt es, blendet sich das Bild
+           selbst aus und es bleibt nur der Textteil (kein Platzhalter). -->
+      <img class="logo" id="site-logo" src="assets/logo.png"
+           alt="Logo der Sozialhummel gGmbH" onerror="this.remove()">
       <div class="header-text">
         <p class="org">Sozialhummel gGmbH</p>
         <h1 class="site-title">Stammdatenblatt und Wünsche</h1>
