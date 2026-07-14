@@ -3,6 +3,18 @@
 Alle nennenswerten Änderungen an diesem Projekt.
 Format lose nach „Keep a Changelog". Additiv — nichts wird gelöscht.
 
+## [0.11.1] — 2026-07-14 — Abschluss/Datenschutz: Kontakt Silke Horn
+
+- **Abschlussseite, Weg 3 (E-Mail):** Versandadresse auf
+  `silke.horn@sozialhummel.de` geändert (statt `info@…`). Der ehrliche Hinweis
+  auf den unsicheren, unverschlüsselten E-Mail-Weg bleibt.
+- **`datenschutz.html`:** Abschnitt „Ansprechpartnerin" ergänzt —
+  Silke Horn, `silke.horn@sozialhummel.de`.
+- Die **Impressumsangaben** (Fußzeile Datenschutzseite und PDF) bleiben unverändert
+  bei `info@sozialhummel.de`, wie in der Papiervorlage.
+- Geprüft: axe-core 0 Verstöße auf beiden Seiten, keine JS-Fehler; Barrierefreiheit
+  der Datenschutzseite (Kontrast/Tastatur/Struktur) wie beim Formular.
+
 ## [0.11.0] — 2026-07-14 — Abschlussseite und Datenschutzhinweis
 
 ### Abschlussseite (`index.html`, `styles.css`)
