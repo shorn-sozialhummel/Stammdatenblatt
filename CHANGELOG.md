@@ -3,6 +3,17 @@
 Alle nennenswerten Änderungen an diesem Projekt.
 Format lose nach „Keep a Changelog". Additiv — nichts wird gelöscht.
 
+## [1.0.2] — 2026-07-14 — Korrektur stv. Geschäftsführung
+
+- Impressum/Fußzeile: **„stv. Geschäftsführung: Axel Dewald"** → **„Sascha Mauel"**
+  (veraltet). Geändert in `pdf.js` (PDF-Fußzeile) und `datenschutz.html`
+  (Impressum). In `index.html` kommt der Name nicht vor.
+- `dist/` neu gebaut, damit die Korrektur in den Auslieferungsdateien steckt.
+- Geprüft: PDF-Fußzeile zeigt „Sascha Mauel", kein „Axel Dewald" mehr.
+- Hinweis: Die zwei Nennungen „Axel Dewald" in den **historischen**
+  CHANGELOG-Einträgen (v1.0.0 / v0.11.0) bleiben als Zeitdokument stehen — sie
+  beschreiben den damaligen Stand, nicht das aktuelle Impressum.
+
 ## [1.0.1] — 2026-07-14 — Logo-Feinschliff und Auslieferungs-Nachtrag
 
 - **Neues Logo** (`assets/logo.png`, 800 × 585, transparent, eng zugeschnitten,

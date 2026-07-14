@@ -140,7 +140,7 @@
             ] },
             { width: "33%", alignment: "right", fontSize: 7, color: "#333333", stack: [
               "Geschäftsführung: Silke Horn",
-              "stv. Geschäftsführung: Axel Dewald",
+              "stv. Geschäftsführung: Sascha Mauel",
               "IK-Nummer: 462534065",
               "HRB: 17329"
             ] }
