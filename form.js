@@ -227,10 +227,12 @@
 
     var wrapper = el("section", {
       "class": "section", id: "section-" + sec,
-      "aria-labelledby": "section-title", tabindex: "-1"
+      "aria-labelledby": "section-title"
     });
-    var h = el("h2", { "class": "section-title", id: "section-title" },
-      "Abschnitt " + sec + ": " + SECTION_TITLES[sec]);
+    // Überschrift ist per Tastatur/Skript fokussierbar, damit der Fokus beim
+    // Abschnittswechsel hier landet und Screenreader den Abschnitt ansagen.
+    var h = el("h2", { "class": "section-title", id: "section-title", tabindex: "-1" },
+      "Abschnitt " + sec + " von " + SECTION_COUNT + ": " + SECTION_TITLES[sec]);
     wrapper.appendChild(h);
     wrapper.appendChild(el("p", { "class": "section-intro" }, SECTION_INTROS[sec] || ""));
 
@@ -244,8 +246,8 @@
     updateNav();
     clearErrorRegion();
 
-    // Fokus auf die Abschnittsüberschrift (für Screenreader)
-    wrapper.focus();
+    // Fokus auf die Abschnittsüberschrift (für Screenreader-Nutzer)
+    h.focus();
   }
 
   function applyVisibility() {

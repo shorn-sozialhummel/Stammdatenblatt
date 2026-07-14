@@ -226,6 +226,19 @@ a:focus-visible {
   outline-offset: 2px;
 }
 
+/* Programmatischer Fokus beim Abschnittswechsel: Überschrift sichtbar markieren */
+.section-title:focus {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+.section-title:focus:not(:focus-visible) {
+  /* dezente Markierung auch für Screenreader-/Skript-Fokus */
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+/* Skip-Ziel selbst braucht keinen großen Rahmen */
+main:focus { outline: none; }
+
 [aria-invalid="true"] {
   border-color: var(--error);
   background: var(--error-bg);

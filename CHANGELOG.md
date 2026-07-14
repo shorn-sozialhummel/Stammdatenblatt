@@ -3,6 +3,39 @@
 Alle nennenswerten Änderungen an diesem Projekt.
 Format lose nach „Keep a Changelog". Additiv — nichts wird gelöscht.
 
+## [0.10.0] — 2026-07-14 — Barrierefreiheit geprüft und nachgebessert
+
+Prüfung mit echten Browser-Tests (Chromium) und **axe-core 4.10.2**.
+Dokumentiert in **`BARRIEREFREIHEIT.md`**.
+
+### Prüfergebnis
+
+- **axe-core: 0 Verstöße** (wcag2a/2aa/21a/21aa) über alle 8 Abschnitte, den
+  Abschluss-Screen und den Datenschutz-Dialog (inkl. aktivierter bedingter Felder).
+- Tastatur: alle Abschnitte per Tastatur erreichbar, sichtbarer Fokus, logische
+  Tab-Reihenfolge — bestanden.
+- Kontraste (hell und dunkel) durchgängig über AA gemessen (Details in der Doku).
+- Klickflächen ≥ 44 px; kein horizontales Scrollen bis 320 px Breite;
+  `prefers-reduced-motion` wird respektiert (Übergänge 0 s).
+
+### Nachgebessert (additiv, keine Registry-Änderung)
+
+- **Skip-Link**: Ziel `<main>` erhält `tabindex="-1"`, damit der Fokus beim
+  Aktivieren wirklich in den Inhalt springt (`index.html`).
+- **Fokus auf die Abschnittsüberschrift** beim Abschnittswechsel: `<h2>` ist jetzt
+  fokussierbar (`tabindex="-1`, Text „Abschnitt X von 8: …") und erhält den Fokus;
+  neuer sichtbarer Fokus-Rahmen für die Überschrift (`form.js`, `styles.css`).
+
+### Neu
+
+- `BARRIEREFREIHEIT.md` — Prüfbericht mit Ergebnissen, Kontrastmesswerten, den
+  nachgebesserten Punkten und einer ehrlichen Liste dessen, was nur mit echten
+  Nutzerinnen und Nutzern geprüft werden kann (Screenreader, Talker, kognitive
+  Barrieren u. a.).
+
+`fields.js` und `check-fields.js` unverändert; `node check-fields.js` weiter
+fehlerfrei (171 Felder).
+
 ## [0.9.0] — 2026-07-14 — PDF im Layout der Papiervorlagen
 
 Das herunterladbare PDF orientiert sich jetzt am Aussehen der Papiervorlagen,
