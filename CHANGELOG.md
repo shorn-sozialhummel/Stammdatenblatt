@@ -3,6 +3,51 @@
 Alle nennenswerten Änderungen an diesem Projekt.
 Format lose nach „Keep a Changelog". Additiv — nichts wird gelöscht.
 
+## [0.8.0] — 2026-07-13 — Betreuer-Zuständigkeiten korrigiert + interner BeWo-Block
+
+### Geändert (mit ausdrücklicher Freigabe — Options-Korrektur)
+
+- `betreuer_bereiche`: Optionen an den Betreuerausweis / die Vorlage
+  (Stammdatenblatt S. 4) angeglichen — **Gesundheitssorge · Aufenthaltsbestimmung ·
+  Vertretung bei Behörden · Vermögensvorsorge · Post- und Fernmeldeverkehr**.
+  Die zuvor erfundenen Varianten (Vermögenssorge / Behörden und Ämter /
+  Wohnungsangelegenheiten) waren rechtlich falsch und wurden ersetzt. Hilfetext
+  klargestellt (nur die im Ausweis stehenden Bereiche ankreuzen). `version: 2`,
+  `changed: 2026-07-13`.
+
+### Neu — interner BeWo-Block (Stammdatenblatt S. 7 und 8, Nr. 10)
+
+Alle `audience: "intern"` — erscheinen **nicht** im Kundenformular. Hängen am
+Schalter `int_bewo_zutreffend` (Vorlage: Feld „entfällt"):
+
+- `int_bewo_zutreffend` (Schalter)
+- `int_bewo_haushaltsvorstand` (ja/nein)
+- `int_bewo_anzahl_kinder` (Zahl)
+- `int_bewo_anzahl_kinder_haushalt` (Zahl)
+- `int_bewo_kenntnis` (Freitext: kennt der Klient BeWo? Anbieterwechsel? schon
+  einmal BeWo?)
+- `int_bewo_teilhabe` (Freitext: Ausmaß der Teilhabe-Einschränkung)
+- `int_bewo_hilfen_bisher` (Freitext: bisher in Anspruch genommene/beantragte Hilfen)
+- `int_bewo_medikation`, `int_bewo_stationaere_aufenthalte`,
+  `int_bewo_rehamassnahmen` (Freitext: Krankheitsanamnese)
+- `int_bewo_beschuetzende_massnahmen` (Freitext: WfbM, Arbeitstherapie usw.)
+- `int_bewo_erwartung` (Freitext: Handlungsbereitschaft/Motivation — was wird von
+  BeWo erwartet?)
+
+  Alle `version: 1`, `changed: 2026-07-13`, mit Hilfetext.
+
+### Unverändert (bewusst)
+
+- Die Zielfragen `ziele_wo` und `ziele_veraenderung` gehören zum Kunden
+  (`audience: "kunde"`, Abschnitt 8) und waren bereits vorhanden — geprüft, nichts
+  ergänzt.
+- Die drei deprecated Platzhalter `int_bewo_leistungsart`,
+  `int_bewo_kostentraeger`, `int_bewo_umfang` bleiben `deprecated` (nicht
+  wiederbelebt). `int_bewo_sonstiges` bleibt als interner Auffang aktiv.
+- `form.js`, `pdf.js`, `check-fields.js`, `index.html`, `styles.css` nicht
+  angefasst. `node check-fields.js` läuft fehlerfrei (171 Felder, davon 28 intern,
+  15 deprecated).
+
 ## [0.7.0] — 2026-07-13 — Fehlende Felder ergänzt (ABGLEICH a): ÖPNV-Details + Kontaktpersonen
 
 Rein additiv. Kein bestehendes Feld inhaltlich verändert.

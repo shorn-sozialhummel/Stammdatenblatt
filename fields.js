@@ -496,15 +496,16 @@
     {
       id: "betreuer_bereiche", section: 5, audience: "kunde", type: "checkboxgroup",
       label: "Wofür ist der Betreuer zuständig?",
-      help: "Wählen Sie die Bereiche, für die Ihr Betreuer zuständig ist. Steht im Betreuerausweis. Freiwillig.",
+      help: "Kreuzen Sie nur die Bereiche an, die im Betreuerausweis stehen. Sie können mehrere ankreuzen. Freiwillig.",
       showIf: { field: "betreuer_vorhanden", value: true },
       options: [
         { value: "gesundheit", label: "Gesundheitssorge" },
         { value: "aufenthalt", label: "Aufenthaltsbestimmung" },
-        { value: "vermoegen", label: "Vermögenssorge" },
-        { value: "behoerden", label: "Behörden und Ämter" },
-        { value: "wohnung", label: "Wohnungsangelegenheiten" }
-      ]
+        { value: "behoerden", label: "Vertretung bei Behörden" },
+        { value: "vermoegen", label: "Vermögensvorsorge" },
+        { value: "post_fernmelde", label: "Post- und Fernmeldeverkehr" }
+      ],
+      version: 2, changed: "2026-07-13"
     },
 
     {
@@ -1352,6 +1353,95 @@
       label: "BeWo: Sonstiges",
       help: "Intern: weitere Angaben aus dem BeWo-Block (Nr. 10). Genaue Felder gegen die PDF-Vorlage prüfen.",
       note: "Gegen Stammdatenblatt-PDF (Nr. 10) prüfen, sobald die Vorlage vorliegt."
+    },
+
+    /* Echter BeWo-Block (Stammdatenblatt S. 7 und 8), Nr. 10.
+       Nur intern — erscheint NICHT im Kundenformular. Hängt am Schalter
+       int_bewo_zutreffend (Vorlage: Feld „entfällt" oben rechts).
+       Die Zielfragen bleiben beim Kunden (ziele_wo, ziele_veraenderung). */
+    {
+      id: "int_bewo_zutreffend", section: 4, audience: "intern", type: "checkbox",
+      label: "BeWo: trifft zu (Antrag auf Fachleistungen)",
+      help: "Intern: Haken setzen, wenn der BeWo-Block (Betreutes Wohnen, Nr. 10) zutrifft. In der Papiervorlage entspricht dem das Feld entfällt (dann nicht gesetzt).",
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "int_bewo_haushaltsvorstand", section: 4, audience: "intern", type: "select",
+      label: "BeWo: Haushaltsvorstand?",
+      help: "Intern: Ist die ratsuchende Person Haushaltsvorstand?",
+      showIf: { field: "int_bewo_zutreffend", value: true },
+      options: JA_NEIN,
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "int_bewo_anzahl_kinder", section: 4, audience: "intern", type: "number",
+      label: "BeWo: Anzahl Kinder",
+      help: "Intern: Anzahl der Kinder insgesamt.",
+      showIf: { field: "int_bewo_zutreffend", value: true },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "int_bewo_anzahl_kinder_haushalt", section: 4, audience: "intern", type: "number",
+      label: "BeWo: Anzahl der Kinder, die im Haushalt leben",
+      help: "Intern: Anzahl der Kinder, die im Haushalt leben.",
+      showIf: { field: "int_bewo_zutreffend", value: true },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "int_bewo_kenntnis", section: 4, audience: "intern", type: "textarea",
+      label: "BeWo: Kenntnis / Historie",
+      help: "Intern: Kennt der Klient BeWo? Liegt ein Wechsel des BeWo-Anbieters vor? Hat es schon einmal BeWo gegeben?",
+      showIf: { field: "int_bewo_zutreffend", value: true },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "int_bewo_teilhabe", section: 4, audience: "intern", type: "textarea",
+      label: "BeWo: Ausmaß der Teilhabe-Einschränkung",
+      help: "Intern: In welchem Ausmaß ist die Teilhabe eingeschränkt? (Alltagskompetenzen / gesellschaftliche Teilhabe).",
+      showIf: { field: "int_bewo_zutreffend", value: true },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "int_bewo_hilfen_bisher", section: 4, audience: "intern", type: "textarea",
+      label: "BeWo: bisher in Anspruch genommene / beantragte Hilfen",
+      help: "Intern: Welche Hilfen wurden bisher schon in Anspruch genommen oder beantragt?",
+      showIf: { field: "int_bewo_zutreffend", value: true },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "int_bewo_medikation", section: 4, audience: "intern", type: "textarea",
+      label: "BeWo: Krankheitsanamnese — Medikation",
+      help: "Intern: Weitere Krankheitsanamnese / Vorgeschichte — Medikation.",
+      showIf: { field: "int_bewo_zutreffend", value: true },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "int_bewo_stationaere_aufenthalte", section: 4, audience: "intern", type: "textarea",
+      label: "BeWo: Krankheitsanamnese — stationäre Aufenthalte",
+      help: "Intern: Weitere Krankheitsanamnese / Vorgeschichte — stationäre Aufenthalte.",
+      showIf: { field: "int_bewo_zutreffend", value: true },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "int_bewo_rehamassnahmen", section: 4, audience: "intern", type: "textarea",
+      label: "BeWo: Krankheitsanamnese — Rehamaßnahmen",
+      help: "Intern: Weitere Krankheitsanamnese / Vorgeschichte — Rehamaßnahmen.",
+      showIf: { field: "int_bewo_zutreffend", value: true },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "int_bewo_beschuetzende_massnahmen", section: 4, audience: "intern", type: "textarea",
+      label: "BeWo: Beschützende Maßnahmen",
+      help: "Intern: Beschützende Maßnahmen (WfbM, Arbeitstherapie usw.).",
+      showIf: { field: "int_bewo_zutreffend", value: true },
+      version: 1, changed: "2026-07-13"
+    },
+    {
+      id: "int_bewo_erwartung", section: 4, audience: "intern", type: "textarea",
+      label: "BeWo: Handlungsbereitschaft / Motivation",
+      help: "Intern: Handlungsbereitschaft / Motivation — was wird von BeWo erwartet?",
+      showIf: { field: "int_bewo_zutreffend", value: true },
+      version: 1, changed: "2026-07-13"
     }
   ];
 
