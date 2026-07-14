@@ -196,3 +196,99 @@ Assistenzkraft.
 → **Empfehlung:** Die Sozialhummel sollte prüfen, ob die **Papiervorlage
 entsprechend nachgezogen** wird (eigenes Beatmungsfeld ergänzen), damit Papier-
 und Webformular übereinstimmen.
+
+---
+
+## Stand nach Umsetzung (Abschlusskontrolle, 2026-07-14)
+
+Nachträglich geprüft, ob jeder Punkt der Listen a), b) und c) umgesetzt ist.
+Registry-Stand: **171 Felder** (`node check-fields.js` fehlerfrei).
+
+### a) Fehlende Felder — Stand
+
+**Kundenseitig — erledigt:**
+
+- ✅ `wunsch_assistenz_alter_von` / `wunsch_assistenz_alter_bis` (mit Validierung von ≤ bis)
+- ✅ `organisation_sonstiges` (W.1 „Sonstiges" im Organisationsblock)
+- ✅ `oepnv_linie`, `oepnv_haltestelle` (nur sichtbar bei Bus/Bahn)
+- ✅ `betreuer_nachweis` (liegt vor / liegt nicht vor)
+- ✅ `angehoerige_adresse`
+- ✅ `betreuungsperson_verhaeltnis`, `betreuungsperson_adresse`
+- ✅ Positionswechsel-Details: `pflegebett_vorhanden`, `liegeposition`
+- ✅ `digitales_ausraeumen`
+
+**Intern — erledigt:**
+
+- ✅ Kompletter **BeWo-Block Nr. 10** als `audience: "intern"` am Schalter
+  `int_bewo_zutreffend`: Haushaltsvorstand, Anzahl Kinder (+ im Haushalt),
+  Kenntnis/Historie, Teilhabe-Ausmaß, bisherige Hilfen, Medikation, stationäre
+  Aufenthalte, Rehamaßnahmen, beschützende Maßnahmen, Erwartung an BeWo.
+
+**Bewusst offen geblieben** (nicht umgesetzt — Entscheidung der Sozialhummel):
+
+- ⏳ **Restliche Zeilen der Antragstellungs-Tabelle** (S. 1): Es sind weiterhin nur
+  die ursprünglichen internen Felder vorhanden (`int_antrag_kostentraeger`,
+  `…_erwuenscht`, `…_erledigt`, `…_45_sgb_xi`, `…_37_3_sgb_xi`, `…_restpflegegeld`).
+  Zeilen wie „Antrag PB oder Sachleistung?", „Arbeitsassistenz erforderlich?",
+  „Fachleistungsstunden (BeWo)?", „Sozialhilfeträger", „Werkstattzeiten", u. a.
+  wurden **nicht** ergänzt. Rein interner Verwaltungsteil; kein Kundennutzen im
+  Formular. Bei Bedarf additiv nachrüstbar.
+- ⏳ **W.2 „Sonstige"** (Freitext am Ende der Tabelle „Wünsche zur Pflege"):
+  bewusst nicht ergänzt — `wunsch_assistenz_sonstiges` und die vielen
+  „…_eigene"-Freitextfelder in Abschnitt 6 decken „Sonstiges" bereits ab.
+- ⏳ **W.1 „Datum"** (Kopf des Wunschbogens): nicht als eigenes Feld übernommen —
+  das PDF trägt ohnehin das **Erstellungsdatum** in der Titelzeile.
+
+### b) Erfundene Felder — Stand: erledigt
+
+- ✅ `int_bewo_leistungsart`, `int_bewo_kostentraeger`, `int_bewo_umfang` →
+  `status: "deprecated"` (durch den echten BeWo-Block ersetzt, nicht gelöscht).
+- ✅ `aufzug` bleibt **aktiv** (bewusst behalten — barrierearme Zusatzangabe).
+- ✅ `adresse_plz`, `adresse_ort`, `wunsch_assistenz_sonstiges`,
+  `int_bewo_sonstiges` bleiben wie empfohlen erhalten.
+
+### c) Abweichungen Label/Typ/Optionen — Stand: erledigt
+
+- ✅ Bedeutung: `patientenverfuegung`, `vorsorgevollmacht` → „Möchten Sie
+  Unterstützung beim Erstellen …?" (ja/nein); `attest_krankenhaus` →
+  Unterstützung ja/nein.
+- ✅ Freitext → Auswahl (Vorlagenoptionen), alte Freitextfelder jeweils
+  `deprecated` bzw. als „…_eigene/Sonstiges" erhalten:
+  - Abschnitt 2: `sprache_kunde` → `muttersprache` + `sprache_hilfen`;
+    `rauchen_kunde`, `psychische_belastungen` → multiselect (+ `…_eigene`).
+  - Abschnitt 3: `pflegeleistungen` → multiselect; `pflegegrad_gewuenscht` +
+    „kein PG".
+  - Abschnitt 4: `familienstand`, `wohnsituation_aktuell/_gewuenscht` → select;
+    `lebenssituation`, `oepnv` → multiselect.
+  - Abschnitt 6 (Grund- + Behandlungspflege): alle elf Positionen — altes
+    Freitextfeld `deprecated`, neues multiselect + „…_eigene" daneben; die
+    `…_selbststaendig`-Schalter blieben unverändert.
+  - Abschnitt 7: `wunsch_assistenz_deutsch/_pflegeerfahrung/_rauchen/_geschlecht`
+    → Vorlagenoptionen; `wunsch_assistenz_fuehrerschein` → Freitext (mit Freigabe).
+- ✅ `betreuer_bereiche` → wörtliche Ausweis-Bereiche (Gesundheitssorge,
+  Aufenthaltsbestimmung, Vertretung bei Behörden, Vermögensvorsorge, Post- und
+  Fernmeldeverkehr).
+- ✅ `wundversorgung`: Label/Hilfetext an Vorlagen-Wortlaut angeglichen (bleibt Freitext).
+
+**Bewusst so belassen (keine Änderung nötig):**
+
+- `geschlecht` behält zusätzlich „divers / keine Angabe" (Erweiterung über die
+  Vorlage „(m/w)" hinaus — inklusiver, bewusst).
+- `merkzeichen` behält die Standardliste G/aG/B/H/Bl/Gl/RF/TBl (Vorlage lässt das
+  Feld leer; die Liste ist die amtliche Standardauswahl).
+- Interne 3-Wege-Felder (`int_flyer_ausgehaendigt`, `int_wuensche_ausgefuellt`,
+  `int_vertrag_ausgehaendigt`): bleiben 2-wertige Checkbox statt ja/nein/später —
+  reine Verwaltungsfelder, nicht im Kundenformular.
+
+### Zusätzlich ergänzt (über die Vorlage hinaus, bewusst)
+
+- `beatmung_vorhanden` (nein / nicht-invasiv / invasiv) — siehe Nachtrag oben.
+  **Empfehlung bleibt:** Papiervorlage entsprechend nachziehen.
+
+### Fazit
+
+Alle Punkte aus **b)** und **c)** sind umgesetzt. Aus **a)** sind alle
+kundenrelevanten Felder und der gesamte BeWo-Block umgesetzt; offen bleiben
+bewusst nur der rein interne Rest der Antragstellungs-Tabelle sowie zwei
+redundante Freitext-/Datumsangaben. Diese Punkte sind dokumentiert und jederzeit
+additiv nachrüstbar.

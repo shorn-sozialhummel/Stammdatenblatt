@@ -1,0 +1,31 @@
+# Sozialhummel — Stammdatenblatt-Formular
+# Diese Datei gehört in denselben Ordner wie index.html.
+
+# 1) Verzeichnislisting ausschalten (niemand soll die Dateiliste sehen)
+Options -Indexes
+
+# 2) HTTPS erzwingen
+#    Strato liefert die Anfrage über einen Proxy aus; deshalb NICHT %{HTTPS},
+#    sondern den vom Proxy gesetzten Header X-Forwarded-Proto auswerten.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https [NC]
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# 3) Sicherheits-Header
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "no-referrer"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+  # Alles nur von der eigenen Domain — keine externen Aufrufe (passt zur
+  # Architektur: keine Datenübertragung, keine CDN).
+  Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
+  # HSTS: Browser merken sich HTTPS (halbes Jahr). Erst aktivieren, wenn HTTPS
+  # sicher läuft.
+  Header always set Strict-Transport-Security "max-age=15552000"
+</IfModule>
+
+# 4) UTF-8 als Standard
+AddDefaultCharset UTF-8

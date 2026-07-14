@@ -3,6 +3,45 @@
 Alle nennenswerten Änderungen an diesem Projekt.
 Format lose nach „Keep a Changelog". Additiv — nichts wird gelöscht.
 
+## [1.0.0] — 2026-07-14 — Abschlusskontrolle und Auslieferung
+
+Erste ausgelieferte Version.
+
+### Vollständigkeitsprüfung
+
+- `ABGLEICH.md` um den Abschnitt **„Stand nach Umsetzung"** ergänzt: Listen a), b)
+  und c) einzeln durchgegangen. **b) und c) vollständig umgesetzt**; aus **a)** alle
+  kundenrelevanten Felder und der komplette BeWo-Block umgesetzt. Bewusst offen
+  bleiben nur der rein interne Rest der Antragstellungs-Tabelle sowie zwei
+  redundante Freitext-/Datumsangaben — dokumentiert und additiv nachrüstbar.
+
+### Auslieferung
+
+- **`AUSLIEFERUNG.md`** (neu): Schritt-für-Schritt-Anleitung für Nicht-
+  Entwickler:innen — STRATO, Domain sh-stiftung-forms.de, SFTP, eigener Unterordner
+  `formular` (Ordner `Verhinderungspflege` bleibt unberührt), Logo, `.htaccess`,
+  Prüf-Checkliste nach dem Upload.
+- **`dist/`** (neu): enthält **genau** die Dateien, die auf den Server gehören —
+  `index.html`, `datenschutz.html`, `styles.css`, `fields.js`, `form.js`, `pdf.js`,
+  `logo.js`, `vendor/pdfmake.min.js`, `vendor/vfs_fonts.js`, `assets/` (Logo-Hinweis)
+  und eine **`.htaccess`** (Verzeichnislisting aus, HTTPS erzwingen via
+  `X-Forwarded-Proto`, Sicherheits-Header inkl. strenger Content-Security-Policy).
+
+### Geändert
+
+- Logo-Fallback aus dem Inline-`onerror` in ein externes **`logo.js`** verlagert
+  (in `index.html` und `datenschutz.html` eingebunden). Dadurch kommt die CSP ohne
+  `'unsafe-inline'` für Skripte aus. Verhalten unverändert: fehlt `assets/logo.png`,
+  blendet sich das Logo aus, kein Platzhalter.
+
+### Test
+
+- `dist/` über HTTP mit der echten `.htaccess`-CSP getestet: Formular lädt,
+  Logo-Fallback greift, **PDF- und JSON-Download funktionieren**, `datenschutz.html`
+  lädt, **0 CSP-Verstöße**, **0 axe-Verstöße** (WCAG A/AA), keine JS-Fehler.
+- Definition of Done aus `PROJEKT-ANWEISUNGEN.md` Punkt für Punkt abgearbeitet
+  (siehe Zusammenfassung). `node check-fields.js` fehlerfrei (171 Felder).
+
 ## [0.11.1] — 2026-07-14 — Abschluss/Datenschutz: Kontakt Silke Horn
 
 - **Abschlussseite, Weg 3 (E-Mail):** Versandadresse auf
